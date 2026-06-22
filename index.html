@@ -1,35 +1,658 @@
 <!doctype html>
-<html lang="en">
+<html lang="uz">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
-    <link rel="stylesheet" href="./index.css" />
+    <title>공부책상 — Mening Daftarim</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700;9..144,900&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --paper: #f6f1e7;
+        --paper-deep: #efe7d6;
+        --card: #fffdf8;
+        --ink: #2b2520;
+        --ink-soft: #6b6055;
+        --rule: #ded2b8;
+        --red: #c1432e;
+        --red-soft: #f3ddd6;
+        --blue: #3b5ba5;
+        --blue-soft: #dde6f4;
+        --moss: #5c7a4f;
+        --moss-soft: #e1ead9;
+        --gold: #c98a2c;
+        --gold-soft: #f3e3c2;
+        --shadow-card:
+          0 2px 0 var(--rule), 0 10px 24px -12px rgba(43, 37, 32, 0.25);
+        --radius: 4px;
+      }
+      [data-theme="dark"] {
+        --paper: #1a1611;
+        --paper-deep: #15110d;
+        --card: #221d17;
+        --ink: #ece3d2;
+        --ink-soft: #a89c89;
+        --rule: #3a3025;
+        --red: #e2725a;
+        --red-soft: #3a2420;
+        --blue: #7fa0e0;
+        --blue-soft: #1f2a3d;
+        --moss: #8fb380;
+        --moss-soft: #202a1c;
+        --gold: #e0ad5c;
+        --gold-soft: #332b18;
+        --shadow-card:
+          0 2px 0 var(--rule), 0 10px 24px -12px rgba(0, 0, 0, 0.6);
+      }
+
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      html {
+        -webkit-tap-highlight-color: transparent;
+      }
+      body {
+        font-family: "Space Grotesk", sans-serif;
+        background: var(--paper);
+        background-image: radial-gradient(
+          circle at 1px 1px,
+          var(--rule) 1px,
+          transparent 0
+        );
+        background-size: 26px 26px;
+        color: var(--ink);
+        min-height: 100vh;
+        transition:
+          background 0.3s,
+          color 0.3s;
+        padding: 22px 18px 50px;
+        overflow-x: hidden;
+      }
+      .wrap {
+        max-width: 1180px;
+        margin: 0 auto;
+      }
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+
+      ::-webkit-scrollbar {
+        width: 6px;
+        height: 6px;
+      }
+      ::-webkit-scrollbar-track {
+        background: transparent;
+      }
+      ::-webkit-scrollbar-thumb {
+        background: var(--rule);
+        border-radius: 10px;
+      }
+
+      /* ============ MASTHEAD ============ */
+      .masthead {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end;
+        flex-wrap: wrap;
+        gap: 14px;
+        padding-bottom: 18px;
+        margin-bottom: 8px;
+        border-bottom: 3px solid var(--ink);
+      }
+      .masthead-title h1 {
+        font-family: "Fraunces", serif;
+        font-weight: 900;
+        font-size: clamp(24px, 4.4vw, 36px);
+        letter-spacing: -0.5px;
+        line-height: 1;
+      }
+      .masthead-sub {
+        font-family: "JetBrains Mono", monospace;
+        font-size: 11px;
+        color: var(--ink-soft);
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        margin-top: 6px;
+        display: block;
+      }
+      .pill-btn {
+        font-family: "Space Grotesk", sans-serif;
+        font-weight: 600;
+        font-size: 13px;
+        padding: 9px 16px;
+        border: 2px solid var(--ink);
+        border-radius: 999px;
+        background: transparent;
+        color: var(--ink);
+        cursor: pointer;
+        transition: all 0.15s ease;
+      }
+      .pill-btn:hover {
+        background: var(--ink);
+        color: var(--paper);
+      }
+      .pill-btn:active {
+        transform: scale(0.95);
+      }
+
+      /* ============ HERO ============ */
+      .hero {
+        padding: 56px 0 40px;
+        position: relative;
+      }
+      .hero-eyebrow {
+        font-family: "JetBrains Mono", monospace;
+        font-size: 12px;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        color: var(--red);
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        margin-bottom: 18px;
+      }
+      .hero-eyebrow::before {
+        content: "";
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: var(--red);
+        display: inline-block;
+        animation: pulse 2s ease-in-out infinite;
+      }
+      @keyframes pulse {
+        0%,
+        100% {
+          opacity: 1;
+        }
+        50% {
+          opacity: 0.35;
+        }
+      }
+      .hero h2 {
+        font-family: "Fraunces", serif;
+        font-weight: 900;
+        font-size: clamp(38px, 8vw, 74px);
+        line-height: 0.98;
+        letter-spacing: -1.5px;
+        max-width: 820px;
+      }
+      .hero h2 .accent {
+        color: var(--blue);
+        font-style: italic;
+        font-weight: 700;
+      }
+      .hero h2 .accent2 {
+        color: var(--red);
+      }
+      .hero-lead {
+        margin-top: 22px;
+        font-size: 16.5px;
+        color: var(--ink-soft);
+        max-width: 480px;
+        line-height: 1.6;
+      }
+      .hero-kr {
+        font-family: "Fraunces", serif;
+        font-style: italic;
+        font-size: 15px;
+        color: var(--moss);
+        margin-top: 10px;
+        display: block;
+      }
+
+      /* ============ TODAY STRIP ============ */
+      .today-strip {
+        display: flex;
+        gap: 14px;
+        margin-top: 36px;
+        flex-wrap: wrap;
+      }
+      .today-pill {
+        background: var(--card);
+        border: 1.5px solid var(--rule);
+        border-radius: 999px;
+        padding: 10px 18px 10px 14px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        box-shadow: var(--shadow-card);
+        font-family: "JetBrains Mono", monospace;
+        font-size: 12.5px;
+      }
+      .today-pill .dot {
+        width: 9px;
+        height: 9px;
+        border-radius: 50%;
+        flex-shrink: 0;
+      }
+      .today-pill .dot.red {
+        background: var(--red);
+      }
+      .today-pill .dot.moss {
+        background: var(--moss);
+      }
+      .today-pill b {
+        font-family: "Fraunces", serif;
+        font-size: 15px;
+        font-weight: 800;
+        margin-left: 2px;
+      }
+
+      /* ============ NAV CARDS ============ */
+      .nav-section {
+        margin-top: 54px;
+      }
+      .nav-section-label {
+        font-family: "JetBrains Mono", monospace;
+        font-size: 11px;
+        text-transform: uppercase;
+        letter-spacing: 1.5px;
+        color: var(--ink-soft);
+        margin-bottom: 18px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+      .nav-section-label::after {
+        content: "";
+        flex: 1;
+        height: 1px;
+        background: var(--rule);
+      }
+
+      .nav-grid {
+        display: grid;
+        grid-template-columns: 1.15fr 1fr;
+        gap: 20px;
+      }
+
+      .nav-card {
+        position: relative;
+        background: var(--card);
+        border: 1.5px solid var(--rule);
+        border-radius: 6px;
+        box-shadow: var(--shadow-card);
+        padding: 30px 28px;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        min-height: 280px;
+        transition:
+          transform 0.22s cubic-bezier(0.2, 0.8, 0.2, 1),
+          box-shadow 0.22s ease;
+        cursor: pointer;
+      }
+      .nav-card:hover {
+        transform: translateY(-5px);
+        box-shadow:
+          0 2px 0 var(--rule),
+          0 22px 40px -16px rgba(43, 37, 32, 0.3);
+      }
+      .nav-card:active {
+        transform: translateY(-2px) scale(0.99);
+      }
+
+      .nav-card-tag {
+        font-family: "JetBrains Mono", monospace;
+        font-size: 10.5px;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        padding: 4px 11px;
+        border-radius: 999px;
+        display: inline-flex;
+        align-self: flex-start;
+        margin-bottom: 18px;
+      }
+      .nav-card.primary .nav-card-tag {
+        background: var(--blue-soft);
+        color: var(--blue);
+      }
+      .nav-card.secondary .nav-card-tag {
+        background: var(--gold-soft);
+        color: var(--gold);
+      }
+
+      .nav-card-glyph {
+        position: absolute;
+        right: -10px;
+        bottom: -28px;
+        font-family: "Fraunces", serif;
+        font-weight: 900;
+        font-size: 170px;
+        color: var(--ink);
+        opacity: 0.04;
+        line-height: 1;
+        user-select: none;
+        pointer-events: none;
+      }
+
+      .nav-card h3 {
+        font-family: "Fraunces", serif;
+        font-weight: 800;
+        font-size: 28px;
+        letter-spacing: -0.5px;
+        margin-bottom: 8px;
+        position: relative;
+        z-index: 1;
+      }
+      .nav-card .kr-name {
+        font-family: "Fraunces", serif;
+        font-style: italic;
+        font-weight: 400;
+        color: var(--ink-soft);
+        font-size: 14px;
+        margin-bottom: 14px;
+      }
+      .nav-card p.desc {
+        color: var(--ink-soft);
+        font-size: 14.5px;
+        line-height: 1.55;
+        max-width: 340px;
+        position: relative;
+        z-index: 1;
+      }
+
+      .nav-card-stats {
+        display: flex;
+        gap: 22px;
+        margin-top: auto;
+        padding-top: 22px;
+        position: relative;
+        z-index: 1;
+      }
+      .nav-card-stats .item .v {
+        font-family: "Fraunces", serif;
+        font-weight: 800;
+        font-size: 24px;
+        line-height: 1;
+      }
+      .nav-card-stats .item .l {
+        font-family: "JetBrains Mono", monospace;
+        font-size: 9.5px;
+        text-transform: uppercase;
+        color: var(--ink-soft);
+        letter-spacing: 0.5px;
+        margin-top: 3px;
+      }
+      .nav-card.primary .v {
+        color: var(--blue);
+      }
+      .nav-card.secondary .v {
+        color: var(--gold);
+      }
+
+      .nav-card-go {
+        position: absolute;
+        top: 28px;
+        right: 28px;
+        width: 38px;
+        height: 38px;
+        border-radius: 50%;
+        border: 2px solid var(--ink);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 16px;
+        transition:
+          transform 0.22s ease,
+          background 0.15s ease;
+        z-index: 2;
+      }
+      .nav-card:hover .nav-card-go {
+        transform: rotate(45deg);
+        background: var(--ink);
+        color: var(--paper);
+      }
+
+      /* progress bar mini */
+      .mini-progress {
+        margin-top: 14px;
+        height: 6px;
+        border-radius: 999px;
+        background: var(--paper-deep);
+        overflow: hidden;
+        position: relative;
+        z-index: 1;
+      }
+      .mini-progress > span {
+        display: block;
+        height: 100%;
+        border-radius: 999px;
+        background: var(--blue);
+        transition: width 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
+      }
+      .nav-card.secondary .mini-progress > span {
+        background: var(--gold);
+      }
+
+      /* ============ FOOTER NOTE ============ */
+      .footnote {
+        margin-top: 60px;
+        padding-top: 22px;
+        border-top: 1.5px dashed var(--rule);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 10px;
+        font-family: "JetBrains Mono", monospace;
+        font-size: 11.5px;
+        color: var(--ink-soft);
+      }
+
+      /* ============ RESPONSIVE ============ */
+      @media (max-width: 860px) {
+        .nav-grid {
+          grid-template-columns: 1fr;
+        }
+        .hero {
+          padding: 40px 0 28px;
+        }
+      }
+      @media (max-width: 520px) {
+        body {
+          padding: 14px 12px 40px;
+        }
+        .masthead-title h1 {
+          font-size: 21px;
+        }
+        .hero h2 {
+          font-size: 36px;
+        }
+        .nav-card {
+          padding: 24px 20px;
+          min-height: 240px;
+        }
+        .nav-card h3 {
+          font-size: 23px;
+        }
+        .nav-card-glyph {
+          font-size: 120px;
+        }
+        .today-strip {
+          gap: 10px;
+        }
+        .today-pill {
+          font-size: 11px;
+          padding: 8px 14px 8px 12px;
+        }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        * {
+          animation: none !important;
+          transition: none !important;
+        }
+      }
+    </style>
   </head>
   <body>
-    <section class="home">
+    <div class="wrap">
+      <!-- MASTHEAD -->
+      <div class="masthead">
+        <div>
+          <div class="masthead-title"><h1>공부책상</h1></div>
+          <span class="masthead-sub"
+            >study desk · shaxsiy rivojlanish markazi</span
+          >
+        </div>
+        <button class="pill-btn" onclick="toggleTheme()">🌓 Rejim</button>
+      </div>
+
+      <!-- HERO -->
       <div class="hero">
-        <h1>Koreys Tili Shaxsiy Paneli</h1>
-        <p>Bilim • Intizom • Natija</p>
+        <span class="hero-eyebrow">jurnal ochiq · yozish vaqti</span>
+        <h2>
+          Har kuni <span class="accent">bir bet</span><br />
+          o'zingga <span class="accent2">yaqinlash</span>.
+        </h2>
+        <span class="hero-kr">매일 한 페이지씩, 나에게 가까워지기</span>
+        <p class="hero-lead">
+          Bu — sening shaxsiy stol ustingi: koreyscha so'zlarni yodlash daftari
+          va kunlik o'zini rivojlantirish jadvali bir joyda. Qaysi varaqni
+          ochasan?
+        </p>
+
+        <div class="today-strip">
+          <div class="today-pill">
+            <span class="dot red"></span>
+            <span id="today-date">—</span>
+          </div>
+          <div class="today-pill">
+            <span class="dot moss"></span>
+            jami so'z: <b id="hp-total">0</b>
+          </div>
+          <div class="today-pill">
+            <span class="dot moss"></span>
+            bugun yodlangan: <b id="hp-daily">0</b>
+          </div>
+        </div>
       </div>
 
-      <div class="cards">
-        <a href="./lugat.html" class="card">
-          <div class="icon">📚</div>
-          <h2>Lug'at Ustaxonasi</h2>
-          <p>
-            So'zlarni qo'shish, tahrirlash va yodlash jarayonini boshqarish.
-          </p>
-          <button>Kirish</button>
-        </a>
+      <!-- NAV -->
+      <div class="nav-section">
+        <div class="nav-section-label">varaqlarni tanlang</div>
+        <div class="nav-grid">
+          <a href="./lugat.html">
+            <div class="nav-card primary">
+              <span class="nav-card-glyph">단</span>
+              <div class="nav-card-go">→</div>
+              <span class="nav-card-tag">vol. 01 · vocabulary</span>
+              <h3>Shaxsiy Lug'at</h3>
+              <div class="kr-name">단어장 — daneojang</div>
+              <p class="desc">
+                O'zbekcha so'zni yoz, koreyscha tarjimasi avtomatik chiqadi.
+                Kartochkalarni varaqlab, o'rganganlaringni belgila va kunlik
+                yodlash statistikangni kuzat.
+              </p>
+              <div class="mini-progress">
+                <span id="bar-lugat" style="width: 0%"></span>
+              </div>
+              <div class="nav-card-stats">
+                <div class="item">
+                  <div class="v" id="card-total">0</div>
+                  <div class="l">jami so'z</div>
+                </div>
+                <div class="item">
+                  <div class="v" id="card-learned">0</div>
+                  <div class="l">o'rganilgan</div>
+                </div>
+                <div class="item">
+                  <div class="v" id="card-daily">0</div>
+                  <div class="l">bugun</div>
+                </div>
+              </div>
+            </div>
+          </a>
 
-        <a href="./reja.html" class="card">
-          <div class="icon">📊</div>
-          <h2>Taraqqiyot Xaritasi</h2>
-          <p>Kunlik odatlar va rivojlanish natijalarini kuzatib boring.</p>
-          <button>Kirish</button>
-        </a>
+          <a href="./jadval.html">
+            <div class="nav-card secondary">
+              <span class="nav-card-glyph">月</span>
+              <div class="nav-card-go">→</div>
+              <span class="nav-card-tag">plan · 30 kun</span>
+              <h3>Rivojlanish Jadvali</h3>
+              <div class="kr-name">월간 계획표 — oylik reja</div>
+              <p class="desc">
+                Ma'naviy o'sish, sport, kitob o'qish, grammatika va so'z yodlash
+                — har kunlik faoliyatingni belgila, grafikda rivojlanishingni
+                kuzat.
+              </p>
+              <div class="mini-progress"><span style="width: 8%"></span></div>
+              <div class="nav-card-stats">
+                <div class="item">
+                  <div class="v">7</div>
+                  <div class="l">faoliyat</div>
+                </div>
+                <div class="item">
+                  <div class="v">31</div>
+                  <div class="l">kun</div>
+                </div>
+                <div class="item">
+                  <div class="v">→</div>
+                  <div class="l">ochish</div>
+                </div>
+              </div>
+            </div>
+          </a>
+        </div>
       </div>
-    </section>
+
+      <div class="footnote">
+        <span>made for daily practice · 매일의 기록</span>
+        <span id="footer-date">2026</span>
+      </div>
+    </div>
+
+    <script>
+      let theme = localStorage.getItem("theme2") || "light";
+      function setTheme(t) {
+        theme = t;
+        document.documentElement.setAttribute("data-theme", t);
+        localStorage.setItem("theme2", t);
+      }
+      function toggleTheme() {
+        setTheme(theme === "light" ? "dark" : "light");
+      }
+      if (theme === "dark")
+        document.documentElement.setAttribute("data-theme", "dark");
+
+      // Pull live stats from the lug'at localStorage keys (same-origin shared storage)
+      function loadStats() {
+        const words = JSON.parse(localStorage.getItem("myWords2")) || [];
+        let dailyCount = parseInt(localStorage.getItem("dailyCount2")) || 0;
+        const dailyDate = localStorage.getItem("dailyDate2") || "";
+        const today = new Date().toDateString();
+        if (dailyDate !== today) dailyCount = 0;
+
+        const total = words.length;
+        const learned = words.filter((w) => w.done).length;
+        const pct = total > 0 ? Math.round((learned / total) * 100) : 0;
+
+        document.getElementById("hp-total").textContent = total;
+        document.getElementById("hp-daily").textContent = dailyCount;
+        document.getElementById("card-total").textContent = total;
+        document.getElementById("card-learned").textContent = learned;
+        document.getElementById("card-daily").textContent = dailyCount;
+        document.getElementById("bar-lugat").style.width = pct + "%";
+      }
+
+      const now = new Date();
+      document.getElementById("today-date").textContent =
+        now.toLocaleDateString("uz-UZ", {
+          weekday: "long",
+          day: "numeric",
+          month: "long",
+        });
+      document.getElementById("footer-date").textContent = now.getFullYear();
+
+      loadStats();
+    </script>
   </body>
 </html>

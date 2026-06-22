@@ -3,389 +3,341 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>📚 Shaxsiy Lug'at</title>
+    <title>단어장 — Shaxsiy Lug'at</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700;9..144,900&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
     <style>
-      /* ===== ROOT ===== */
+      /* ============ TOKENS ============ */
       :root {
-        --bg: #eef0f3;
-        --bg-card: #ffffff;
-        --bg-input: #f5f6f8;
-        --text: #1a1a2e;
-        --text-secondary: #6b7280;
-        --border: #e2e4e8;
-        --shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
-        --primary: #28313f;
-        --primary-light: #3d4a5c;
-        --primary-glow: rgba(40, 49, 63, 0.15);
-        --blue: #4f7df3;
-        --blue-light: #e8eeff;
-        --red: #ef4444;
-        --red-light: #fee2e2;
-        --green: #10b981;
-        --green-light: #d1fae5;
-        --gold: #f59e0b;
-        --gold-light: #fef3c7;
-        --radius: 16px;
-        --radius-sm: 10px;
-        --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        --paper: #f6f1e7;
+        --paper-deep: #efe7d6;
+        --card: #fffdf8;
+        --ink: #2b2520;
+        --ink-soft: #6b6055;
+        --rule: #ded2b8;
+        --red: #c1432e;
+        --red-soft: #f3ddd6;
+        --blue: #3b5ba5;
+        --blue-soft: #dde6f4;
+        --moss: #5c7a4f;
+        --moss-soft: #e1ead9;
+        --gold: #c98a2c;
+        --gold-soft: #f3e3c2;
+        --shadow-card:
+          0 2px 0 var(--rule), 0 10px 24px -12px rgba(43, 37, 32, 0.25);
+        --radius: 4px;
       }
-
       [data-theme="dark"] {
-        --bg: #0f1117;
-        --bg-card: #1a1d27;
-        --bg-input: #252a36;
-        --text: #e8eaed;
-        --text-secondary: #9aa0b0;
-        --border: #2d3342;
-        --shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
-        --primary-glow: rgba(40, 49, 63, 0.4);
-        --blue-light: #1a2744;
-        --green-light: #0a2a20;
-        --red-light: #3d1515;
-        --gold-light: #3d2e0a;
+        --paper: #1a1611;
+        --paper-deep: #15110d;
+        --card: #221d17;
+        --ink: #ece3d2;
+        --ink-soft: #a89c89;
+        --rule: #3a3025;
+        --red: #e2725a;
+        --red-soft: #3a2420;
+        --blue: #7fa0e0;
+        --blue-soft: #1f2a3d;
+        --moss: #8fb380;
+        --moss-soft: #202a1c;
+        --gold: #e0ad5c;
+        --gold-soft: #332b18;
+        --shadow-card:
+          0 2px 0 var(--rule), 0 10px 24px -12px rgba(0, 0, 0, 0.6);
       }
 
-      /* ===== RESET ===== */
       * {
         box-sizing: border-box;
         margin: 0;
         padding: 0;
       }
+      html {
+        -webkit-tap-highlight-color: transparent;
+      }
       body {
-        font-family:
-          -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-        background: var(--bg);
-        color: var(--text);
-        padding: 14px;
-        transition: var(--transition);
+        font-family: "Space Grotesk", sans-serif;
+        background: var(--paper);
+        background-image: radial-gradient(
+          circle at 1px 1px,
+          var(--rule) 1px,
+          transparent 0
+        );
+        background-size: 26px 26px;
+        color: var(--ink);
         min-height: 100vh;
+        transition:
+          background 0.3s,
+          color 0.3s;
+        padding: 22px 18px 60px;
       }
       .wrap {
-        max-width: 1100px;
+        max-width: 1180px;
         margin: 0 auto;
       }
+      .serif {
+        font-family: "Fraunces", serif;
+      }
+      .mono {
+        font-family: "JetBrains Mono", monospace;
+      }
 
-      /* ===== SCROLL ===== */
       ::-webkit-scrollbar {
-        width: 5px;
-        height: 5px;
+        width: 6px;
+        height: 6px;
       }
       ::-webkit-scrollbar-track {
-        background: var(--bg);
+        background: transparent;
       }
       ::-webkit-scrollbar-thumb {
-        background: var(--primary);
+        background: var(--rule);
         border-radius: 10px;
       }
 
-      /* ===== HEADER ===== */
-      .header {
-        background: linear-gradient(
-          135deg,
-          var(--primary),
-          var(--primary-light)
-        );
-        padding: 18px 24px;
-        border-radius: var(--radius);
-        margin-bottom: 20px;
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+
+      /* ============ HEADER ============ */
+      .masthead {
         display: flex;
         justify-content: space-between;
-        align-items: center;
+        align-items: flex-end;
         flex-wrap: wrap;
-        gap: 12px;
-        box-shadow: 0 8px 32px rgba(40, 49, 63, 0.3);
+        gap: 14px;
+        padding-bottom: 18px;
+        margin-bottom: 26px;
+        border-bottom: 3px solid var(--ink);
       }
-      .header h1 {
-        color: #fff;
-        font-size: 22px;
-        font-weight: 800;
+      .masthead-title {
         display: flex;
-        align-items: center;
-        gap: 10px;
+        align-items: baseline;
+        gap: 14px;
+        flex-wrap: wrap;
+      }
+      .masthead-title h1 {
+        font-family: "Fraunces", serif;
+        font-weight: 900;
+        font-size: clamp(28px, 5vw, 44px);
         letter-spacing: -0.5px;
+        line-height: 1;
       }
-      .header h1 small {
-        font-size: 13px;
+      .masthead-title .kr {
+        font-family: "Fraunces", serif;
         font-weight: 400;
-        opacity: 0.7;
-        letter-spacing: 0;
+        font-style: italic;
+        font-size: 17px;
+        color: var(--ink-soft);
       }
-      .header-actions {
+      .masthead-sub {
+        font-family: "JetBrains Mono", monospace;
+        font-size: 11.5px;
+        color: var(--ink-soft);
+        text-transform: uppercase;
+        letter-spacing: 1px;
+      }
+      .masthead-actions {
         display: flex;
         gap: 8px;
         flex-wrap: wrap;
       }
-      .theme-btn {
-        background: rgba(255, 255, 255, 0.12);
-        backdrop-filter: blur(10px);
-        border: 1px solid rgba(255, 255, 255, 0.15);
-        color: #fff;
-        padding: 9px 18px;
-        border-radius: var(--radius-sm);
-        cursor: pointer;
+      .pill-btn {
+        font-family: "Space Grotesk", sans-serif;
+        font-weight: 600;
         font-size: 13px;
-        font-weight: 500;
-        transition: var(--transition);
-        display: flex;
+        padding: 9px 16px;
+        border: 2px solid var(--ink);
+        border-radius: 999px;
+        background: transparent;
+        color: var(--ink);
+        cursor: pointer;
+        transition: all 0.15s ease;
+        display: inline-flex;
         align-items: center;
         gap: 6px;
       }
-      .theme-btn:hover {
-        background: rgba(255, 255, 255, 0.22);
-        transform: scale(1.02);
+      .pill-btn:hover {
+        background: var(--ink);
+        color: var(--paper);
+      }
+      .pill-btn:active {
+        transform: scale(0.95);
       }
 
-      /* ===== STATS ===== */
+      /* ============ STATS — STAMP ROW ============ */
       .stats {
         display: grid;
         grid-template-columns: repeat(4, 1fr);
-        gap: 12px;
-        margin-bottom: 20px;
+        gap: 14px;
+        margin-bottom: 24px;
       }
       .stat {
-        background: var(--bg-card);
-        padding: 16px 18px;
+        background: var(--card);
+        border: 1.5px solid var(--rule);
         border-radius: var(--radius);
-        box-shadow: var(--shadow);
-        border: 1px solid var(--border);
-        transition: var(--transition);
+        padding: 16px 18px;
+        box-shadow: var(--shadow-card);
         position: relative;
-        overflow: hidden;
+        animation: rise 0.5s ease-out backwards;
       }
-      .stat::before {
-        content: "";
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        height: 3px;
+      .stat:nth-child(1) {
+        animation-delay: 0.02s;
       }
-      .stat:nth-child(1)::before {
-        background: var(--primary);
+      .stat:nth-child(2) {
+        animation-delay: 0.08s;
       }
-      .stat:nth-child(2)::before {
-        background: var(--blue);
+      .stat:nth-child(3) {
+        animation-delay: 0.14s;
       }
-      .stat:nth-child(3)::before {
-        background: var(--red);
+      .stat:nth-child(4) {
+        animation-delay: 0.2s;
       }
-      .stat:nth-child(4)::before {
-        background: var(--green);
+      .stat .tag {
+        font-family: "JetBrains Mono", monospace;
+        font-size: 10px;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        color: var(--ink-soft);
+        display: block;
+        margin-bottom: 8px;
       }
-      .stat:hover {
-        transform: translateY(-3px);
-        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
-      }
-      .stat-num {
-        font-size: 28px;
+      .stat .num {
+        font-family: "Fraunces", serif;
         font-weight: 800;
-        letter-spacing: -0.5px;
-        color: var(--text);
+        font-size: 36px;
+        line-height: 1;
+        letter-spacing: -1px;
       }
-      .stat-label {
-        font-size: 12px;
-        color: var(--text-secondary);
-        margin-top: 3px;
-        display: flex;
-        align-items: center;
-        gap: 5px;
-      }
-      .stat .icon {
-        font-size: 16px;
-      }
-      .num-primary {
-        color: var(--primary);
-      }
-      .num-blue {
-        color: var(--blue);
-      }
-      .num-red {
+      .stat.c-red .num {
         color: var(--red);
       }
-      .num-green {
-        color: var(--green);
+      .stat.c-blue .num {
+        color: var(--blue);
+      }
+      .stat.c-moss .num {
+        color: var(--moss);
+      }
+      .stat.c-gold .num {
+        color: var(--gold);
+      }
+      .stat::after {
+        content: "";
+        position: absolute;
+        top: 12px;
+        right: 12px;
+        width: 7px;
+        height: 7px;
+        border-radius: 50%;
+      }
+      .stat.c-red::after {
+        background: var(--red);
+      }
+      .stat.c-blue::after {
+        background: var(--blue);
+      }
+      .stat.c-moss::after {
+        background: var(--moss);
+      }
+      .stat.c-gold::after {
+        background: var(--gold);
       }
 
-      /* ===== DAILY ===== */
-      .daily-box {
-        background: var(--bg-card);
-        padding: 18px 22px;
+      @keyframes rise {
+        from {
+          opacity: 0;
+          transform: translateY(10px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      /* ============ DAILY — TICKET STUB ============ */
+      .daily {
+        background: var(--card);
+        border: 1.5px solid var(--rule);
         border-radius: var(--radius);
-        box-shadow: var(--shadow);
-        margin-bottom: 18px;
-        border: 1px solid var(--border);
-        transition: var(--transition);
+        box-shadow: var(--shadow-card);
+        margin-bottom: 22px;
+        display: grid;
+        grid-template-columns: 1fr 1px 1.4fr;
+        overflow: hidden;
       }
-      .daily-box:hover {
-        border-color: var(--primary);
+      .daily-tear {
+        background: repeating-linear-gradient(
+          to bottom,
+          var(--rule) 0 8px,
+          transparent 8px 16px
+        );
       }
-      .daily-head {
+      .daily-left,
+      .daily-right {
+        padding: 20px 22px;
+      }
+      .daily-left {
         display: flex;
-        justify-content: space-between;
-        align-items: center;
-        flex-wrap: wrap;
-        gap: 8px;
-        margin-bottom: 12px;
+        flex-direction: column;
+        justify-content: center;
+        gap: 4px;
       }
-      .daily-head h3 {
-        font-size: 14px;
-        color: var(--text-secondary);
+      .daily-left .eyebrow {
+        font-family: "JetBrains Mono", monospace;
+        font-size: 10.5px;
+        text-transform: uppercase;
+        letter-spacing: 1.2px;
+        color: var(--moss);
+      }
+      .daily-left .big-date {
+        font-family: "Fraunces", serif;
+        font-weight: 800;
+        font-size: 26px;
+      }
+      .daily-right {
         display: flex;
-        align-items: center;
-        gap: 8px;
-      }
-      .daily-head h3 strong {
-        color: var(--text);
+        flex-direction: column;
+        gap: 12px;
       }
       .daily-row {
         display: flex;
         gap: 10px;
-        flex-wrap: wrap;
         align-items: center;
+        flex-wrap: wrap;
       }
-      .daily-row input {
-        width: 90px;
-        padding: 10px 14px;
-        border: 2px solid var(--border);
-        border-radius: var(--radius-sm);
-        font-size: 15px;
+      .daily-row input[type="number"] {
+        width: 84px;
+        padding: 9px 12px;
+        border: 2px solid var(--rule);
+        border-radius: var(--radius);
+        font-family: "JetBrains Mono", monospace;
         font-weight: 600;
-        background: var(--bg-input);
-        color: var(--text);
+        font-size: 16px;
+        background: var(--paper);
+        color: var(--ink);
         outline: none;
-        transition: var(--transition);
         text-align: center;
       }
       .daily-row input:focus {
-        border-color: var(--primary);
-        box-shadow: 0 0 0 3px var(--primary-glow);
+        border-color: var(--moss);
       }
       .daily-row .info {
-        color: var(--text-secondary);
+        color: var(--ink-soft);
         font-size: 13px;
-      }
-      .daily-words {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 6px;
-        margin-top: 12px;
-        padding-top: 12px;
-        border-top: 2px dashed var(--border);
-        min-height: 36px;
-      }
-      .daily-tag {
-        background: var(--bg-input);
-        padding: 5px 14px;
-        border-radius: 20px;
-        font-size: 12px;
-        border: 1px solid var(--border);
-        color: var(--text);
-        transition: var(--transition);
-      }
-      .daily-tag.done {
-        background: var(--green-light);
-        border-color: var(--green);
-        color: var(--green);
-      }
-      .daily-empty {
-        color: var(--text-secondary);
-        font-size: 13px;
-        font-style: italic;
-      }
-
-      /* ===== ADD ===== */
-      .add-box {
-        background: var(--bg-card);
-        padding: 20px 24px;
-        border-radius: var(--radius);
-        box-shadow: var(--shadow);
-        margin-bottom: 18px;
-        border: 1px solid var(--border);
-        transition: var(--transition);
-      }
-      .add-box:hover {
-        border-color: var(--primary);
-      }
-      .add-head {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        flex-wrap: wrap;
-        gap: 8px;
-        margin-bottom: 14px;
-      }
-      .add-head h3 {
-        font-size: 15px;
-        color: var(--text-secondary);
-        display: flex;
-        align-items: center;
-        gap: 8px;
-      }
-      .edit-badge {
-        background: var(--gold);
-        color: #fff;
-        padding: 3px 12px;
-        border-radius: 20px;
-        font-size: 10px;
-        font-weight: 700;
-        text-transform: uppercase;
-        letter-spacing: 0.5px;
-      }
-      .add-grid {
-        display: grid;
-        grid-template-columns: 1fr 1fr 0.7fr auto auto auto;
-        gap: 10px;
-        align-items: center;
-      }
-      .add-grid input,
-      .add-grid select {
-        width: 100%;
-        padding: 10px 14px;
-        border: 2px solid var(--border);
-        border-radius: var(--radius-sm);
-        font-size: 14px;
-        background: var(--bg-input);
-        color: var(--text);
-        outline: none;
-        transition: var(--transition);
-      }
-      .add-grid input:focus,
-      .add-grid select:focus {
-        border-color: var(--primary);
-        box-shadow: 0 0 0 3px var(--primary-glow);
-      }
-      .add-grid .trans-box {
-        width: 100%;
-        padding: 10px 14px;
-        background: var(--bg-input);
-        border-radius: var(--radius-sm);
-        font-size: 14px;
-        color: var(--text);
-        border: 2px dashed var(--border);
-        min-height: 42px;
-        display: flex;
-        align-items: center;
-        transition: var(--transition);
-      }
-      .add-grid .trans-box.loading {
-        color: var(--text-secondary);
-        font-style: italic;
-      }
-      .add-grid .trans-box.error {
-        color: var(--red);
-        border-color: var(--red);
-      }
-      .add-grid .trans-box.success {
-        border-color: var(--green);
       }
       .btn {
-        padding: 10px 20px;
+        font-family: "Space Grotesk", sans-serif;
+        padding: 9px 18px;
         border: none;
-        border-radius: var(--radius-sm);
-        font-weight: 600;
+        border-radius: var(--radius);
+        font-weight: 700;
         font-size: 13px;
         cursor: pointer;
-        transition: var(--transition);
+        transition:
+          transform 0.12s ease,
+          filter 0.15s ease;
         display: inline-flex;
         align-items: center;
         gap: 6px;
@@ -394,48 +346,167 @@
       .btn:active {
         transform: scale(0.95);
       }
-      .btn-save {
-        background: var(--primary);
-        color: #fff;
+      .btn-ink {
+        background: var(--ink);
+        color: var(--paper);
       }
-      .btn-save:hover {
-        background: var(--primary-light);
-        box-shadow: 0 4px 15px var(--primary-glow);
-      }
-      .btn-trans {
-        background: var(--bg-input);
-        color: var(--text);
-        border: 2px solid var(--border);
-      }
-      .btn-trans:hover {
-        background: var(--border);
-      }
-      .btn-danger {
-        background: var(--red);
-        color: #fff;
-      }
-      .btn-danger:hover {
-        background: #dc2626;
-        box-shadow: 0 4px 15px rgba(239, 68, 68, 0.3);
-      }
-      .btn-edit {
-        background: var(--gold);
-        color: #fff;
-      }
-      .btn-edit:hover {
-        background: #d97706;
-        box-shadow: 0 4px 15px rgba(245, 158, 11, 0.3);
+      .btn-ink:hover {
+        filter: brightness(1.3);
       }
       .btn-outline {
         background: transparent;
-        border: 2px solid var(--border);
-        color: var(--text);
+        border: 2px solid var(--rule);
+        color: var(--ink);
       }
       .btn-outline:hover {
-        background: var(--bg-input);
+        border-color: var(--ink);
+      }
+      .btn-red {
+        background: var(--red);
+        color: #fff;
+      }
+      .btn-red:hover {
+        filter: brightness(1.1);
+      }
+      .btn-gold {
+        background: var(--gold);
+        color: #2b2113;
+      }
+      .btn-gold:hover {
+        filter: brightness(1.1);
+      }
+      .btn-sm {
+        padding: 6px 14px;
+        font-size: 12px;
       }
 
-      /* ===== SEARCH ===== */
+      .daily-words {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+        min-height: 28px;
+      }
+      .daily-tag {
+        font-family: "JetBrains Mono", monospace;
+        font-size: 11.5px;
+        background: var(--moss-soft);
+        color: var(--moss);
+        padding: 5px 12px;
+        border-radius: 999px;
+        border: 1px solid var(--moss);
+      }
+      .daily-empty {
+        color: var(--ink-soft);
+        font-size: 13px;
+        font-style: italic;
+      }
+
+      /* ============ ADD CARD — INDEX CARD ============ */
+      .add-card {
+        background: var(--card);
+        border: 1.5px solid var(--rule);
+        border-radius: var(--radius);
+        box-shadow: var(--shadow-card);
+        margin-bottom: 22px;
+        padding: 22px 24px;
+        position: relative;
+        border-top: 3px solid var(--ink);
+      }
+      .add-head {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 16px;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+      .add-head h3 {
+        font-family: "Fraunces", serif;
+        font-weight: 700;
+        font-size: 19px;
+      }
+      .edit-badge {
+        background: var(--gold);
+        color: #2b2113;
+        padding: 3px 12px;
+        border-radius: 999px;
+        font-size: 10px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        font-family: "JetBrains Mono", monospace;
+      }
+      .add-grid {
+        display: grid;
+        grid-template-columns: 1.2fr 1.2fr 0.9fr auto auto auto;
+        gap: 10px;
+        align-items: stretch;
+      }
+      .field-label {
+        font-family: "JetBrains Mono", monospace;
+        font-size: 9.5px;
+        text-transform: uppercase;
+        letter-spacing: 0.8px;
+        color: var(--ink-soft);
+        display: block;
+        margin-bottom: 5px;
+      }
+      .add-grid input,
+      .add-grid select {
+        width: 100%;
+        padding: 11px 14px;
+        border: 2px solid var(--rule);
+        border-radius: var(--radius);
+        font-size: 14.5px;
+        font-family: "Space Grotesk", sans-serif;
+        background: var(--paper);
+        color: var(--ink);
+        outline: none;
+        transition: border-color 0.15s ease;
+      }
+      .add-grid input:focus,
+      .add-grid select:focus {
+        border-color: var(--blue);
+      }
+      .trans-box {
+        width: 100%;
+        padding: 11px 14px;
+        background: var(--blue-soft);
+        border-radius: var(--radius);
+        font-size: 14.5px;
+        color: var(--blue);
+        border: 2px dashed var(--blue);
+        min-height: 44px;
+        display: flex;
+        align-items: center;
+        font-weight: 600;
+        font-family: "Fraunces", serif;
+      }
+      .trans-box.loading {
+        color: var(--ink-soft);
+        font-style: italic;
+        border-color: var(--rule);
+        background: var(--paper);
+        font-family: inherit;
+        font-weight: 400;
+      }
+      .trans-box.error {
+        color: var(--red);
+        border-color: var(--red);
+        background: var(--red-soft);
+        font-family: inherit;
+        font-weight: 400;
+        font-size: 13px;
+      }
+      .trans-box.empty-state {
+        color: var(--ink-soft);
+        border-color: var(--rule);
+        background: var(--paper);
+        font-family: inherit;
+        font-weight: 400;
+      }
+
+      /* ============ SEARCH BAR ============ */
       .search-box {
         display: grid;
         grid-template-columns: 2fr 1fr 1fr;
@@ -444,437 +515,379 @@
       }
       .search-box input,
       .search-box select {
-        padding: 10px 14px;
-        border: 2px solid var(--border);
-        border-radius: var(--radius-sm);
-        font-size: 13px;
-        background: var(--bg-input);
-        color: var(--text);
+        padding: 11px 14px;
+        border: 2px solid var(--rule);
+        border-radius: var(--radius);
+        font-size: 13.5px;
+        font-family: "Space Grotesk", sans-serif;
+        background: var(--card);
+        color: var(--ink);
         outline: none;
-        transition: var(--transition);
+        transition: border-color 0.15s ease;
       }
       .search-box input:focus,
       .search-box select:focus {
-        border-color: var(--primary);
-        box-shadow: 0 0 0 3px var(--primary-glow);
+        border-color: var(--ink);
       }
 
-      /* ===== TABLE ===== */
-      .tbl-wrap {
-        background: var(--bg-card);
+      /* ============ CARD GRID (flashcards) ============ */
+      .card-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+        gap: 14px;
+        margin-bottom: 18px;
+      }
+      .flash {
+        background: var(--card);
+        border: 1.5px solid var(--rule);
         border-radius: var(--radius);
-        overflow: hidden;
-        box-shadow: var(--shadow);
-        border: 1px solid var(--border);
-      }
-      .tbl-scroll {
-        overflow-x: auto;
-        padding-bottom: 4px;
-      }
-      table {
-        width: 100%;
-        border-collapse: collapse;
-        font-size: 13px;
-        min-width: 600px;
-      }
-      th {
-        background: var(--primary);
-        color: #fff;
-        padding: 13px 16px;
-        text-align: left;
-        font-weight: 600;
-        font-size: 12px;
-        letter-spacing: 0.3px;
-        white-space: nowrap;
-        position: sticky;
-        top: 0;
-      }
-      td {
-        padding: 12px 16px;
-        border-bottom: 1px solid var(--border);
-        vertical-align: middle;
-        color: var(--text);
-      }
-      tr:last-child td {
-        border-bottom: none;
-      }
-      tr:hover td {
-        background: var(--bg-input);
-      }
-      .word-uz {
-        font-weight: 700;
-        color: var(--text);
-      }
-      .word-kor {
-        color: var(--text-secondary);
-        font-weight: 500;
-      }
-      .status-badge {
-        display: inline-block;
-        padding: 4px 14px;
-        border-radius: 20px;
-        font-size: 11px;
-        font-weight: 600;
-      }
-      .status-done {
-        background: var(--green-light);
-        color: var(--green);
-      }
-      .status-undone {
-        background: var(--bg-input);
-        color: var(--text-secondary);
-      }
-      .cat-badge {
-        display: inline-block;
-        padding: 3px 12px;
-        border-radius: 20px;
-        font-size: 11px;
-        font-weight: 500;
-        background: var(--bg-input);
-        color: var(--text-secondary);
-        border: 1px solid var(--border);
-      }
-      .actions {
+        box-shadow: var(--shadow-card);
+        padding: 16px 18px;
+        position: relative;
+        cursor: default;
+        animation: rise 0.35s ease-out backwards;
         display: flex;
-        gap: 5px;
-        flex-wrap: wrap;
+        flex-direction: column;
+        gap: 10px;
+        transition: border-color 0.15s ease;
       }
-      .actions button {
-        padding: 5px 12px;
+      .flash.is-done {
+        border-color: var(--moss);
+      }
+      .flash-top {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        gap: 6px;
+      }
+      .flash-idx {
+        font-family: "JetBrains Mono", monospace;
+        font-size: 10px;
+        color: var(--ink-soft);
+      }
+      .flash-cat {
+        font-family: "JetBrains Mono", monospace;
+        font-size: 10px;
+        padding: 2px 9px;
+        border-radius: 999px;
+        background: var(--paper-deep);
+        color: var(--ink-soft);
+        border: 1px solid var(--rule);
+        white-space: nowrap;
+      }
+      .flash-uz {
+        font-family: "Fraunces", serif;
+        font-weight: 700;
+        font-size: 19px;
+        color: var(--ink);
+        line-height: 1.2;
+      }
+      .flash-divider {
         border: none;
-        border-radius: 8px;
-        font-size: 12px;
-        cursor: pointer;
-        font-weight: 500;
-        transition: var(--transition);
+        border-top: 1.5px dashed var(--rule);
+        margin: 0;
       }
-      .actions button:active {
+      .flash-kor {
+        font-family: "Space Grotesk", sans-serif;
+        font-weight: 500;
+        font-size: 16px;
+        color: var(--blue);
+      }
+      .flash-actions {
+        display: flex;
+        gap: 6px;
+        margin-top: 2px;
+      }
+      .icon-btn {
+        flex: 1;
+        padding: 7px 0;
+        border: none;
+        border-radius: var(--radius);
+        font-size: 13px;
+        cursor: pointer;
+        font-weight: 600;
+        transition:
+          transform 0.1s ease,
+          filter 0.15s ease;
+        font-family: "Space Grotesk", sans-serif;
+      }
+      .icon-btn:active {
         transform: scale(0.92);
       }
-      .btn-check {
-        background: var(--green-light);
-        color: var(--green);
+      .ib-check {
+        background: var(--moss-soft);
+        color: var(--moss);
       }
-      .btn-check:hover {
-        background: #a7f3d0;
+      .ib-check.done {
+        background: var(--paper-deep);
+        color: var(--ink-soft);
       }
-      .btn-check.done {
-        background: var(--bg-input);
-        color: var(--text-secondary);
+      .ib-edit {
+        background: var(--gold-soft);
+        color: var(--gold);
       }
-      .btn-check.done:hover {
-        background: var(--border);
+      .ib-del {
+        background: var(--red-soft);
+        color: var(--red);
       }
-      .empty {
-        text-align: center;
-        padding: 50px 20px;
-        color: var(--text-secondary);
-        font-size: 14px;
-      }
-      .empty .big {
-        font-size: 56px;
-        display: block;
-        margin-bottom: 12px;
+      .icon-btn:hover {
+        filter: brightness(0.95);
       }
 
-      /* ===== PAGINATION ===== */
+      .empty-state-block {
+        text-align: center;
+        padding: 70px 20px;
+        color: var(--ink-soft);
+        grid-column: 1 / -1;
+      }
+      .empty-state-block .big {
+        font-size: 52px;
+        display: block;
+        margin-bottom: 14px;
+      }
+      .empty-state-block .lead {
+        font-family: "Fraunces", serif;
+        font-weight: 600;
+        font-size: 17px;
+        color: var(--ink);
+        margin-bottom: 6px;
+      }
+
+      /* ============ PAGINATION ============ */
       .pagination {
         display: flex;
         justify-content: space-between;
         align-items: center;
-        padding: 14px 18px;
+        padding: 14px 4px;
         font-size: 13px;
-        color: var(--text-secondary);
-        border-top: 1px solid var(--border);
+        color: var(--ink-soft);
         flex-wrap: wrap;
+        gap: 10px;
+        font-family: "JetBrains Mono", monospace;
+      }
+      .pagination .nav-btns {
+        display: flex;
         gap: 8px;
       }
       .pagination button {
-        padding: 7px 18px;
-        border: 2px solid var(--border);
-        border-radius: var(--radius-sm);
-        background: var(--bg-card);
-        color: var(--text);
+        padding: 8px 18px;
+        border: 2px solid var(--rule);
+        border-radius: var(--radius);
+        background: var(--card);
+        color: var(--ink);
         cursor: pointer;
         font-size: 12px;
-        font-weight: 500;
-        transition: var(--transition);
+        font-weight: 600;
+        font-family: "Space Grotesk", sans-serif;
+        transition: all 0.15s ease;
       }
       .pagination button:hover:not(:disabled) {
-        background: var(--bg-input);
-        border-color: var(--primary);
+        border-color: var(--ink);
       }
       .pagination button:disabled {
-        opacity: 0.4;
+        opacity: 0.35;
         cursor: not-allowed;
       }
 
-      /* ===== RESPONSIVE ===== */
-      @media (max-width: 992px) {
+      /* ============ RESPONSIVE ============ */
+      @media (max-width: 980px) {
         .add-grid {
-          grid-template-columns: 1fr 1fr 0.8fr;
+          grid-template-columns: 1fr 1fr;
         }
         .add-grid .btn {
           width: 100%;
           justify-content: center;
-        }
-        .add-grid .btn-trans,
-        .add-grid .btn-danger {
-          grid-column: span 1;
         }
       }
-      @media (max-width: 768px) {
-        body {
-          padding: 10px;
-        }
+      @media (max-width: 760px) {
         .stats {
           grid-template-columns: repeat(2, 1fr);
-          gap: 8px;
         }
-        .stat {
-          padding: 12px 14px;
-        }
-        .stat-num {
-          font-size: 22px;
-        }
-        .add-grid {
+        .daily {
           grid-template-columns: 1fr;
         }
-        .add-grid .btn {
-          width: 100%;
-          justify-content: center;
+        .daily-tear {
+          display: none;
         }
         .search-box {
           grid-template-columns: 1fr;
         }
-        .header h1 {
-          font-size: 18px;
-        }
-        .header h1 small {
-          display: none;
-        }
-        .daily-row {
-          flex-direction: column;
-          align-items: stretch;
-        }
-        .daily-row input {
-          width: 100%;
-        }
-        .daily-row .btn {
-          width: 100%;
-          justify-content: center;
-        }
-        .pagination {
-          flex-direction: column;
-          align-items: center;
+        .add-grid {
+          grid-template-columns: 1fr;
         }
       }
       @media (max-width: 480px) {
         body {
-          padding: 6px;
+          padding: 14px 10px 50px;
         }
-        .stat-num {
-          font-size: 18px;
+        .masthead-title h1 {
+          font-size: 26px;
         }
-        .stat-label {
-          font-size: 10px;
+        .stat .num {
+          font-size: 28px;
         }
-        .header {
-          padding: 12px 16px;
+        .card-grid {
+          grid-template-columns: 1fr 1fr;
+          gap: 10px;
         }
-        .header h1 {
+        .flash {
+          padding: 12px 13px;
+        }
+        .flash-uz {
           font-size: 16px;
         }
-        .theme-btn {
-          font-size: 12px;
-          padding: 7px 14px;
-        }
-        .add-box,
-        .daily-box {
-          padding: 14px 16px;
-        }
-        .tbl-wrap {
-          border-radius: 12px;
-        }
-        td,
-        th {
-          padding: 8px 10px;
-          font-size: 12px;
-        }
-        .actions button {
-          font-size: 11px;
-          padding: 4px 8px;
-        }
-        .btn {
-          padding: 8px 16px;
-          font-size: 12px;
-        }
-        .daily-head h3 {
-          font-size: 12px;
-        }
-        .add-head h3 {
-          font-size: 13px;
-        }
-      }
-      @media (max-width: 320px) {
-        body {
-          padding: 4px;
-        }
-        .stats {
-          gap: 5px;
-        }
-        .stat {
-          padding: 8px 10px;
-        }
-        .stat-num {
-          font-size: 16px;
-        }
-        .stat-label {
-          font-size: 9px;
-        }
-        .header h1 {
+        .flash-kor {
           font-size: 14px;
         }
-        td,
-        th {
-          padding: 6px 8px;
-          font-size: 11px;
-        }
-        table {
-          min-width: 400px;
+      }
+      @media (max-width: 360px) {
+        .card-grid {
+          grid-template-columns: 1fr;
         }
       }
 
-      /* ===== ANIMATIONS ===== */
-      @keyframes fadeIn {
-        from {
-          opacity: 0;
-          transform: translateY(8px);
+      @media (prefers-reduced-motion: reduce) {
+        * {
+          animation: none !important;
+          transition: none !important;
         }
-        to {
-          opacity: 1;
-          transform: translateY(0);
-        }
-      }
-      .stat,
-      .daily-box,
-      .add-box,
-      .tbl-wrap {
-        animation: fadeIn 0.4s ease-out;
-      }
-      tr {
-        transition: var(--transition);
       }
     </style>
   </head>
   <body>
     <div class="wrap">
-      <!-- HEADER -->
-      <div class="header">
-        <h1>📚 Lug'at <small>shaxsiy</small></h1>
-        <div class="header-actions">
-          <button class="theme-btn" onclick="toggleTheme()">🌓 Rejim</button>
-          <a href="./index.html">
-            <button class="theme-btn">Home</button>
-          </a>
+      <!-- MASTHEAD -->
+      <div class="masthead">
+        <div>
+          <div class="masthead-title">
+            <h1>단어장</h1>
+            <span class="kr">— Shaxsiy Lug'at</span>
+          </div>
+          <div class="masthead-sub">
+            vol. 01 · uzbek → korean vocabulary log
+          </div>
+        </div>
+        <div class="masthead-actions">
+          <button class="pill-btn" onclick="toggleTheme()" id="theme-toggle">
+            🌓 Rejim
+          </button>
+          <a href="./index.html"><button class="pill-btn">🏠 Home</button></a>
         </div>
       </div>
 
       <!-- STATS -->
       <div class="stats">
-        <div class="stat">
-          <div class="stat-num num-primary" id="total-count">0</div>
-          <div class="stat-label"><span class="icon">📖</span> Jami so'z</div>
+        <div class="stat c-red">
+          <span class="tag">jami so'z</span>
+          <div class="num" id="total-count">0</div>
         </div>
-        <div class="stat">
-          <div class="stat-num num-blue" id="learned-count">0</div>
-          <div class="stat-label"><span class="icon">✅</span> O'rganilgan</div>
+        <div class="stat c-blue">
+          <span class="tag">o'rganilgan</span>
+          <div class="num" id="learned-count">0</div>
         </div>
-        <div class="stat">
-          <div class="stat-num num-red" id="remain-count">0</div>
-          <div class="stat-label"><span class="icon">⏳</span> Qolgan</div>
+        <div class="stat c-gold">
+          <span class="tag">qolgan</span>
+          <div class="num" id="remain-count">0</div>
         </div>
-        <div class="stat">
-          <div class="stat-num num-green" id="daily-count">0</div>
-          <div class="stat-label">
-            <span class="icon">📅</span> Bugungi yodlagan
+        <div class="stat c-moss">
+          <span class="tag">bugun yodlangan</span>
+          <div class="num" id="daily-count">0</div>
+        </div>
+      </div>
+
+      <!-- DAILY TICKET -->
+      <div class="daily">
+        <div class="daily-left">
+          <span class="eyebrow">kunlik chipta</span>
+          <span class="big-date serif" id="daily-date-label">Bugun</span>
+          <span class="masthead-sub" style="margin-top: 4px"
+            >№ <span id="daily-count-2">0</span> so'z saqlandi</span
+          >
+        </div>
+        <div class="daily-tear"></div>
+        <div class="daily-right">
+          <div class="daily-row">
+            <input
+              type="number"
+              id="daily-input"
+              min="1"
+              max="200"
+              placeholder="70"
+            />
+            <span class="info">ta so'z yodladim</span>
+            <button class="btn btn-ink" onclick="addDaily()">
+              ➕ Kiritish
+            </button>
+            <button class="btn btn-outline btn-sm" onclick="clearDaily()">
+              🗑️ Tozalash
+            </button>
+          </div>
+          <div class="daily-words" id="daily-words">
+            <span class="daily-empty"
+              >📭 Hali bugun hech qanday so'z yodlanmagan</span
+            >
           </div>
         </div>
       </div>
 
-      <!-- DAILY -->
-      <div class="daily-box">
-        <div class="daily-head">
-          <h3>
-            📅 <strong id="daily-date-label">Bugun</strong> yodlagan so'zlar
-          </h3>
-          <button
-            class="btn btn-danger"
-            onclick="clearDaily()"
-            style="padding: 6px 16px; font-size: 12px"
-          >
-            🗑️ Tozalash
-          </button>
-        </div>
-        <div class="daily-row">
-          <input
-            type="number"
-            id="daily-input"
-            min="1"
-            max="200"
-            placeholder="70"
-          />
-          <span class="info">ta so'z yodladim</span>
-          <button class="btn btn-save" onclick="addDaily()">➕ Kiritish</button>
-        </div>
-        <div class="daily-words" id="daily-words">
-          <span class="daily-empty"
-            >📭 Hali bugun hech qanday so'z yodlanmagan</span
-          >
-        </div>
-      </div>
-
-      <!-- ADD -->
-      <div class="add-box">
+      <!-- ADD CARD -->
+      <div class="add-card">
         <div class="add-head">
           <h3 id="add-title">✏️ Yangi so'z qo'shish</h3>
           <span id="edit-badge" style="display: none" class="edit-badge"
-            >✏️ Tahrir</span
+            >tahrirlanmoqda</span
           >
         </div>
         <div class="add-grid">
-          <input
-            type="text"
-            id="uz-input"
-            placeholder="O'zbekcha so'z..."
-            oninput="translateWord()"
-          />
-          <div class="trans-box" id="trans-result">🇰🇷 Koreyscha tarjimasi</div>
-          <input
-            type="text"
-            id="kor-input"
-            placeholder="Koreyscha (tuzatish)"
-            style="display: none"
-          />
-          <select id="cat-select">
-            <option value="umumiy">📌 Umumiy</option>
-            <option value="ish">💼 Ish</option>
-            <option value="o'qish">📚 O'qish</option>
-            <option value="sayohat">✈️ Sayohat</option>
-            <option value="ovqat">🍜 Ovqat</option>
-            <option value="sport">🏃 Sport</option>
-            <option value="salomatlik">💊 Salomatlik</option>
-            <option value="uy">🏠 Uy</option>
-            <option value="texnologiya">💻 Texnologiya</option>
-            <option value="san'at">🎨 San'at</option>
-          </select>
-          <button class="btn btn-trans" onclick="toggleKorInput()">
-            ✏️ Tahrir
-          </button>
-          <button class="btn btn-save" onclick="addWord()">💾 Saqlash</button>
-          <button class="btn btn-danger" onclick="clearAddForm()">
-            🗑️ Bekor
-          </button>
+          <div>
+            <label class="field-label">o'zbekcha</label>
+            <input
+              type="text"
+              id="uz-input"
+              placeholder="masalan: kitob"
+              oninput="translateWord()"
+            />
+          </div>
+          <div>
+            <label class="field-label">koreyscha</label>
+            <div class="trans-box empty-state" id="trans-result">
+              자동 번역 / avtomatik
+            </div>
+            <input
+              type="text"
+              id="kor-input"
+              placeholder="Koreyscha (tuzatish)"
+              style="display: none"
+            />
+          </div>
+          <div>
+            <label class="field-label">kategoriya</label>
+            <select id="cat-select">
+              <option value="umumiy">📌 Umumiy</option>
+              <option value="ish">💼 Ish</option>
+              <option value="o'qish">📚 O'qish</option>
+              <option value="sayohat">✈️ Sayohat</option>
+              <option value="ovqat">🍜 Ovqat</option>
+              <option value="sport">🏃 Sport</option>
+              <option value="salomatlik">💊 Salomatlik</option>
+              <option value="uy">🏠 Uy</option>
+              <option value="texnologiya">💻 Texnologiya</option>
+              <option value="san'at">🎨 San'at</option>
+            </select>
+          </div>
+          <div style="align-self: end">
+            <button class="btn btn-outline" onclick="toggleKorInput()">
+              ✏️ Tahrir
+            </button>
+          </div>
+          <div style="align-self: end">
+            <button class="btn btn-ink" onclick="addWord()">💾 Saqlash</button>
+          </div>
+          <div style="align-self: end">
+            <button class="btn btn-red" onclick="clearAddForm()">
+              ✕ Bekor
+            </button>
+          </div>
         </div>
       </div>
 
@@ -906,29 +919,14 @@
         </select>
       </div>
 
-      <!-- TABLE -->
-      <div class="tbl-wrap">
-        <div class="tbl-scroll">
-          <table>
-            <thead>
-              <tr>
-                <th>#</th>
-                <th>O'zbekcha</th>
-                <th>Koreyscha</th>
-                <th>Kategoriya</th>
-                <th>Holat</th>
-                <th>Amallar</th>
-              </tr>
-            </thead>
-            <tbody id="table-body"></tbody>
-          </table>
-        </div>
-        <div class="pagination">
-          <span id="page-info">0-0 / 0</span>
-          <div>
-            <button onclick="prevPage()" id="prev-btn">← Oldingi</button>
-            <button onclick="nextPage()" id="next-btn">Keyingi →</button>
-          </div>
+      <!-- CARD GRID -->
+      <div class="card-grid" id="table-body"></div>
+
+      <div class="pagination">
+        <span id="page-info" class="mono">0-0 / 0</span>
+        <div class="nav-btns">
+          <button onclick="prevPage()" id="prev-btn">← Oldingi</button>
+          <button onclick="nextPage()" id="next-btn">Keyingi →</button>
         </div>
       </div>
     </div>
@@ -978,8 +976,10 @@
           dailyCount = 0;
           dailyDate = today;
           saveData();
+          return;
         }
         document.getElementById("daily-count").textContent = dailyCount;
+        document.getElementById("daily-count-2").textContent = dailyCount;
         document.getElementById("daily-date-label").textContent =
           new Date().toLocaleDateString("uz-UZ", {
             weekday: "short",
@@ -990,34 +990,40 @@
       }
 
       // ==================== TRANSLATE ====================
+      let translateTimer = null;
       async function translateWord() {
         const uz = document.getElementById("uz-input").value.trim();
         const transBox = document.getElementById("trans-result");
         const korInput = document.getElementById("kor-input");
 
+        clearTimeout(translateTimer);
+
         if (!uz) {
-          transBox.textContent = "🇰🇷 Koreyscha tarjimasi";
+          transBox.textContent = "자동 번역 / avtomatik";
           korInput.value = "";
-          transBox.className = "trans-box";
+          transBox.className = "trans-box empty-state";
           return;
         }
 
-        transBox.textContent = "⏳ Tarjima...";
+        transBox.textContent = "⏳ Tarjima qilinmoqda...";
         transBox.className = "trans-box loading";
 
-        try {
-          const url = `https://translate.googleapis.com/translate_a/single?client=gtx&sl=uz&tl=ko&dt=t&q=${encodeURIComponent(uz)}`;
-          const res = await fetch(url);
-          const data = await res.json();
-          const translation = data[0][0][0];
-          transBox.textContent = translation;
-          transBox.className = "trans-box success";
-          korInput.value = translation;
-        } catch (e) {
-          transBox.textContent = "❌ Xatolik, o'zingiz yozing";
-          transBox.className = "trans-box error";
-          korInput.value = "";
-        }
+        translateTimer = setTimeout(async () => {
+          try {
+            const url = `https://translate.googleapis.com/translate_a/single?client=gtx&sl=uz&tl=ko&dt=t&q=${encodeURIComponent(uz)}`;
+            const res = await fetch(url);
+            const data = await res.json();
+            const translation = data[0][0][0];
+            transBox.textContent = translation;
+            transBox.className = "trans-box";
+            korInput.value = translation;
+          } catch (e) {
+            transBox.textContent =
+              "❌ Xatolik — pastdagi ✏️ Tahrir tugmasi bilan o'zingiz yozing";
+            transBox.className = "trans-box error";
+            korInput.value = "";
+          }
+        }, 380);
       }
 
       function toggleKorInput() {
@@ -1025,13 +1031,22 @@
         const transBox = document.getElementById("trans-result");
         if (korInput.style.display === "none") {
           korInput.style.display = "block";
-          korInput.value = transBox.textContent;
+          korInput.value =
+            transBox.classList.contains("empty-state") ||
+            transBox.classList.contains("error")
+              ? ""
+              : transBox.textContent;
           transBox.style.display = "none";
         } else {
           korInput.style.display = "none";
           transBox.style.display = "flex";
-          transBox.textContent = korInput.value || "🇰🇷 Koreyscha tarjimasi";
-          transBox.className = "trans-box";
+          if (korInput.value.trim()) {
+            transBox.textContent = korInput.value;
+            transBox.className = "trans-box";
+          } else {
+            transBox.textContent = "자동 번역 / avtomatik";
+            transBox.className = "trans-box empty-state";
+          }
         }
       }
 
@@ -1047,12 +1062,11 @@
             ? korInput.value.trim()
             : transBox.textContent.trim();
         const skipWords = [
-          "🇰🇷 Koreyscha tarjimasi",
-          "⏳ Tarjima...",
-          "❌ Xatolik, o'zingiz yozing",
+          "자동 번역 / avtomatik",
+          "⏳ Tarjima qilinmoqda...",
           "",
         ];
-        if (skipWords.includes(kor) || kor.includes("tarjimasi")) kor = "";
+        if (skipWords.includes(kor) || kor.includes("Xatolik")) kor = "";
 
         if (!uz || !kor) {
           alert("❗ Iltimos, o'zbekcha va koreyscha so'zlarni kiriting!");
@@ -1070,7 +1084,6 @@
           document.getElementById("add-title").textContent =
             "✏️ Yangi so'z qo'shish";
           document.getElementById("edit-badge").style.display = "none";
-          document.querySelector(".btn-save").textContent = "💾 Saqlash";
         } else {
           const newId =
             words.length > 0 ? Math.max(...words.map((w) => w.id)) + 1 : 1;
@@ -1095,32 +1108,34 @@
 
         editId = id;
         document.getElementById("uz-input").value = word.uz;
-        document.getElementById("trans-result").textContent = word.kor;
-        document.getElementById("trans-result").style.display = "flex";
-        document.getElementById("trans-result").className = "trans-box success";
+        const transBox = document.getElementById("trans-result");
+        transBox.textContent = word.kor;
+        transBox.style.display = "flex";
+        transBox.className = "trans-box";
         document.getElementById("kor-input").value = word.kor;
         document.getElementById("kor-input").style.display = "none";
         document.getElementById("cat-select").value = word.cat || "umumiy";
         document.getElementById("add-title").textContent =
           "✏️ So'zni tahrirlash";
         document.getElementById("edit-badge").style.display = "inline";
-        document.querySelector(".btn-save").textContent = "💾 Yangilash";
         document.getElementById("uz-input").focus();
+        document
+          .querySelector(".add-card")
+          .scrollIntoView({ behavior: "smooth", block: "center" });
       }
 
       function clearAddForm() {
         document.getElementById("uz-input").value = "";
-        document.getElementById("trans-result").textContent =
-          "🇰🇷 Koreyscha tarjimasi";
-        document.getElementById("trans-result").style.display = "flex";
-        document.getElementById("trans-result").className = "trans-box";
+        const transBox = document.getElementById("trans-result");
+        transBox.textContent = "자동 번역 / avtomatik";
+        transBox.style.display = "flex";
+        transBox.className = "trans-box empty-state";
         document.getElementById("kor-input").value = "";
         document.getElementById("kor-input").style.display = "none";
         document.getElementById("cat-select").value = "umumiy";
         document.getElementById("add-title").textContent =
           "✏️ Yangi so'z qo'shish";
         document.getElementById("edit-badge").style.display = "none";
-        document.querySelector(".btn-save").textContent = "💾 Saqlash";
         editId = null;
       }
 
@@ -1187,16 +1202,14 @@
         }
         container.innerHTML =
           recent
-            .map(
-              (w) => `<span class="daily-tag done">${w.uz} → ${w.kor}</span>`,
-            )
+            .map((w) => `<span class="daily-tag">${w.uz} → ${w.kor}</span>`)
             .join("") +
           (recent.length < dailyCount
             ? `<span class="daily-tag">+${dailyCount - recent.length} ta</span>`
             : "");
       }
 
-      // ==================== TABLE ====================
+      // ==================== TABLE (now CARD GRID) ====================
       function getFiltered() {
         const q = document
           .getElementById("search-input")
@@ -1205,7 +1218,7 @@
         const filter = document.getElementById("filter-select").value;
         const catFilter = document.getElementById("cat-filter").value;
 
-        let list = words.filter((w) => {
+        return words.filter((w) => {
           const match =
             !q ||
             w.uz.toLowerCase().includes(q) ||
@@ -1216,7 +1229,6 @@
           if (filter === "undone") return match && catMatch && !w.done;
           return match && catMatch;
         });
-        return list;
       }
 
       const CAT_EMOJI = {
@@ -1241,28 +1253,34 @@
         const start = (currentPage - 1) * PER_PAGE;
         const slice = list.slice(start, start + PER_PAGE);
 
-        const tbody = document.getElementById("table-body");
+        const grid = document.getElementById("table-body");
         if (!slice.length) {
-          tbody.innerHTML = `<tr><td colspan="6" class="empty"><span class="big">📭</span>Hali hech qanday so'z qo'shilmagan<br><span style="font-size:12px;color:var(--text-secondary)">Yuqoridagi formadan so'z qo'shishni boshlang</span></td></tr>`;
+          grid.innerHTML = `
+            <div class="empty-state-block">
+              <span class="big">📭</span>
+              <div class="lead">Hali hech qanday so'z qo'shilmagan</div>
+              <span class="masthead-sub">Yuqoridagi formadan birinchi so'zingizni qo'shing</span>
+            </div>`;
         } else {
-          tbody.innerHTML = slice
+          grid.innerHTML = slice
             .map((w, i) => {
               const catEmoji = CAT_EMOJI[w.cat] || "📌";
               const catLabel = w.cat || "umumiy";
               return `
-            <tr>
-                <td style="font-weight:600;color:var(--text-secondary)">${start + i + 1}</td>
-                <td class="word-uz">${w.uz}</td>
-                <td class="word-kor">${w.kor}</td>
-                <td><span class="cat-badge">${catEmoji} ${catLabel}</span></td>
-                <td><span class="status-badge ${w.done ? "status-done" : "status-undone"}">${w.done ? "✅ O'rganilgan" : "⏳ O'rganilmagan"}</span></td>
-                <td class="actions">
-                    <button class="btn-check ${w.done ? "done" : ""}" onclick="toggleDone(${w.id})" title="${w.done ? "Bekor qilish" : "O'rganildi"}">${w.done ? "↩️" : "✅"}</button>
-                    <button class="btn-edit" onclick="editWord(${w.id})" title="Tahrirlash">✏️</button>
-                    <button class="btn-danger" onclick="deleteWord(${w.id})" title="O'chirish">🗑️</button>
-                </td>
-            </tr>
-        `;
+            <div class="flash ${w.done ? "is-done" : ""}" style="animation-delay:${Math.min(i * 0.03, 0.3)}s">
+                <div class="flash-top">
+                    <span class="flash-idx">#${String(start + i + 1).padStart(3, "0")}</span>
+                    <span class="flash-cat">${catEmoji} ${catLabel}</span>
+                </div>
+                <div class="flash-uz">${w.uz}</div>
+                <hr class="flash-divider" />
+                <div class="flash-kor">${w.kor}</div>
+                <div class="flash-actions">
+                    <button class="icon-btn ib-check ${w.done ? "done" : ""}" onclick="toggleDone(${w.id})" title="${w.done ? "Bekor qilish" : "O'rganildi"}">${w.done ? "↩️" : "✅"}</button>
+                    <button class="icon-btn ib-edit" onclick="editWord(${w.id})" title="Tahrirlash">✏️</button>
+                    <button class="icon-btn ib-del" onclick="deleteWord(${w.id})" title="O'chirish">🗑️</button>
+                </div>
+            </div>`;
             })
             .join("");
         }
@@ -1292,7 +1310,6 @@
       updateStats();
       renderTable();
 
-      // Enter bilan qo'shish
       document.getElementById("uz-input").addEventListener("keydown", (e) => {
         if (e.key === "Enter") {
           e.preventDefault();
