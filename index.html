@@ -1,0 +1,1340 @@
+<!-- <!doctype html>
+<html lang="uz">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>1 Oylik Reja</title>
+
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Segoe UI", sans-serif;
+      }
+
+      html,
+      body {
+        height: 100%;
+        overflow: hidden;
+        background: #0f172a;
+        color: white;
+        padding: 14px 18px;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      .title {
+        text-align: center;
+        flex: 0 0 auto;
+      }
+
+      .title h1 {
+        font-size: 24px;
+        background: linear-gradient(45deg, #38bdf8, #22c55e);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        letter-spacing: 0.5px;
+      }
+
+      .title p {
+        color: #cbd5e1;
+        margin-top: 4px;
+        font-size: 12px;
+      }
+
+      .table-wrapper {
+        background: white;
+        border-radius: 14px;
+        padding: 8px;
+        box-shadow: 0 0 30px rgba(0, 0, 0, 0.3);
+        flex: 1 1 58%;
+        display: flex;
+        overflow: hidden;
+      }
+
+      table {
+        border-collapse: collapse;
+        width: 100%;
+        height: 100%;
+        color: #000;
+        table-layout: fixed;
+      }
+
+      th,
+      td {
+        border: 1px solid #dbeafe;
+        text-align: center;
+        font-size: 10.5px;
+        padding: 0;
+      }
+
+      .activity {
+        width: 150px;
+        text-align: left;
+        padding-left: 8px;
+        background: linear-gradient(135deg, #f59e0b, #f97316);
+        color: white;
+        font-weight: bold;
+        font-size: 11px;
+        position: sticky;
+        left: 0;
+      }
+
+      thead th {
+        background: #0ea5e9;
+        color: white;
+        font-size: 10px;
+        line-height: 1.2;
+        font-weight: 600;
+      }
+
+      tbody tr:hover td {
+        background: #f0f9ff;
+      }
+      tbody tr:hover .activity {
+        background: linear-gradient(135deg, #f59e0b, #f97316);
+      }
+
+      td[contenteditable="true"]:focus {
+        background: #e0f2fe;
+        outline: 2px solid #38bdf8;
+      }
+
+      .chart {
+        background: white;
+        padding: 8px;
+        border-radius: 14px;
+        color: black;
+        flex: 1 1 38%;
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+      }
+
+      .chart-title {
+        text-align: center;
+        margin-bottom: 6px;
+        color: #059669;
+        font-size: 14px;
+        flex: 0 0 auto;
+      }
+
+      .chart-table-holder {
+        flex: 1 1 auto;
+        overflow: hidden;
+        display: flex;
+      }
+
+      .chart-table {
+        width: 100%;
+        height: 100%;
+        border-collapse: collapse;
+        table-layout: fixed;
+      }
+
+      .chart-table td,
+      .chart-table th {
+        border: 1px solid #d1fae5;
+        font-size: 10px;
+        text-align: center;
+        padding: 0;
+      }
+
+      .score {
+        background: linear-gradient(135deg, #10b981, #059669);
+        color: white;
+        font-weight: bold;
+        width: 60px;
+        position: sticky;
+        left: 0;
+      }
+
+      .day-label {
+        background: #ecfdf5;
+        color: #065f46;
+        font-weight: 600;
+        font-size: 9.5px;
+      }
+
+      .legend {
+        color: #cbd5e1;
+        text-align: center;
+        font-size: 11px;
+        flex: 0 0 auto;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="title">
+      <h1>🎯 1 OYLIK RIVOJLANISH JADVALI</h1>
+      <p>23-Iyun 2026 → 23-Iyul 2026</p>
+    </div>
+
+    <div class="table-wrapper">
+      <table id="planner">
+        <thead>
+          <tr id="dateRow">
+            <th class="activity">Faoliyat</th>
+          </tr>
+        </thead>
+
+        <tbody id="bodyRows"></tbody>
+      </table>
+    </div>
+
+    <div class="chart">
+      <h2 class="chart-title">📊 BAJARILGANLAR GRAFIGI</h2>
+
+      <div class="chart-table-holder">
+        <table class="chart-table" id="chartTable"></table>
+      </div>
+    </div>
+
+    <div class="legend">
+      Har kuni bajarilgan vazifalar sonini pastdagi grafikda belgilang.
+    </div>
+
+    <script>
+      const activities = [
+        "🕌 Ma'naviy rivojlanish",
+        "💪 Sport",
+        "📖 Kitob o‘qish (20 bet)",
+        "📚 Grammatika",
+        "🧠 So‘z yodlash (100 ta)",
+        "💡 Kunlik maslahat",
+        "😴 Uyqu (23:00 - 03:10)",
+        "✅ Bajarilganlar soni",
+      ];
+
+      const start = new Date("2026-06-23");
+      const end = new Date("2026-07-23");
+
+      const dateRow = document.getElementById("dateRow");
+      const bodyRows = document.getElementById("bodyRows");
+
+      let dates = [];
+
+      for (let d = new Date(start); d <= end; d.setDate(d.getDate() + 1)) {
+        dates.push(new Date(d));
+
+        const th = document.createElement("th");
+        th.innerHTML =
+          d.getDate() + "<br>" + (d.getMonth() == 5 ? "Iyun" : "Iyul");
+        dateRow.appendChild(th);
+      }
+
+      activities.forEach((item) => {
+        let tr = document.createElement("tr");
+
+        let first = document.createElement("td");
+        first.className = "activity";
+        first.textContent = item;
+
+        tr.appendChild(first);
+
+        dates.forEach(() => {
+          let td = document.createElement("td");
+          td.contentEditable = true;
+          tr.appendChild(td);
+        });
+
+        bodyRows.appendChild(tr);
+      });
+
+      const chartTable = document.getElementById("chartTable");
+
+      for (let score = 8; score >= 1; score--) {
+        let tr = document.createElement("tr");
+
+        let first = document.createElement("td");
+        first.className = "score";
+        first.textContent = score;
+
+        tr.appendChild(first);
+
+        dates.forEach(() => {
+          let td = document.createElement("td");
+          td.contentEditable = true;
+          tr.appendChild(td);
+        });
+
+        chartTable.appendChild(tr);
+      }
+
+      let bottomRow = document.createElement("tr");
+
+      let empty = document.createElement("td");
+      empty.className = "score";
+      empty.textContent = "Kun";
+      bottomRow.appendChild(empty);
+
+      dates.forEach((d) => {
+        let td = document.createElement("td");
+        td.className = "day-label";
+        td.innerHTML = d.getDate();
+        bottomRow.appendChild(td);
+      });
+
+      chartTable.appendChild(bottomRow);
+    </script>
+  </body>
+</html> -->
+
+<!doctype html>
+<html lang="uz">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>1 Oylik Reja</title>
+
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Segoe UI", sans-serif;
+        -webkit-tap-highlight-color: transparent;
+      }
+
+      html,
+      body {
+        height: 100%;
+      }
+
+      body {
+        background: #0a0e14;
+        background-image:
+          linear-gradient(rgba(255, 255, 255, 0.025) 1px, transparent 1px),
+          linear-gradient(
+            90deg,
+            rgba(255, 255, 255, 0.025) 1px,
+            transparent 1px
+          );
+        background-size: 24px 24px;
+        color: #c8d3e0;
+      }
+
+      /* ============================================================
+         DESKTOP / TABLET LAYOUT  (>=768px) — full dashboard, no scroll
+         ============================================================ */
+      #desktopView {
+        height: 100%;
+        overflow: hidden;
+        padding: 14px 20px;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      .title {
+        flex: 0 0 auto;
+        display: flex;
+        align-items: baseline;
+        gap: 10px;
+        border-bottom: 1px solid #1f2733;
+        padding-bottom: 8px;
+        flex-wrap: wrap;
+      }
+
+      .title .tag {
+        font-family: "Consolas", "JetBrains Mono", monospace;
+        font-size: 10px;
+        color: #00d9ff;
+        background: rgba(0, 217, 255, 0.08);
+        border: 1px solid rgba(0, 217, 255, 0.35);
+        padding: 3px 7px;
+        border-radius: 4px;
+        letter-spacing: 1px;
+      }
+
+      .title h1 {
+        font-size: 19px;
+        font-weight: 700;
+        color: #eef3f9;
+        letter-spacing: 0.3px;
+      }
+
+      .title .period {
+        margin-left: auto;
+        font-family: "Consolas", "JetBrains Mono", monospace;
+        font-size: 12px;
+        color: #5a6878;
+      }
+      .title .period b {
+        color: #ffb86c;
+        font-weight: 600;
+      }
+
+      .title .reset {
+        font-family: "Consolas", "JetBrains Mono", monospace;
+        font-size: 10px;
+        color: #5a6878;
+        background: transparent;
+        border: 1px solid #1f2733;
+        padding: 4px 8px;
+        border-radius: 4px;
+        cursor: pointer;
+      }
+      .title .reset:hover {
+        color: #ff5c7a;
+        border-color: #ff5c7a;
+      }
+
+      .table-wrapper {
+        background: #11161f;
+        border: 1px solid #1f2733;
+        border-radius: 8px;
+        padding: 6px;
+        flex: 1 1 56%;
+        display: flex;
+        overflow: hidden;
+      }
+
+      table {
+        border-collapse: collapse;
+        width: 100%;
+        height: 100%;
+        table-layout: fixed;
+      }
+
+      th,
+      td {
+        border: 1px solid #1c232e;
+        text-align: center;
+        font-size: 10.5px;
+        padding: 0;
+        color: #c8d3e0;
+      }
+
+      .activity {
+        width: 175px;
+        text-align: left;
+        padding-left: 10px;
+        background: #161c27;
+        font-weight: 600;
+        font-size: 11px;
+        color: #eef3f9;
+        position: sticky;
+        left: 0;
+        border-right: 2px solid #00d9ff;
+      }
+
+      .activity .idx {
+        font-family: "Consolas", "JetBrains Mono", monospace;
+        color: #00d9ff;
+        font-size: 9.5px;
+        margin-right: 6px;
+        opacity: 0.85;
+      }
+
+      thead th {
+        background: #0d1219;
+        color: #5a6878;
+        font-size: 9.5px;
+        line-height: 1.2;
+        font-weight: 600;
+        font-family: "Consolas", "JetBrains Mono", monospace;
+        border-bottom: 1px solid #1f2733;
+      }
+
+      thead th.activity {
+        color: #00d9ff;
+        border-right: 2px solid #00d9ff;
+      }
+
+      tbody tr td:not(.activity) {
+        background: #0d1219;
+        cursor: pointer;
+        position: relative;
+      }
+      tbody tr:hover td:not(.activity) {
+        background: #161c27;
+      }
+
+      .check-cell .box {
+        width: 16px;
+        height: 16px;
+        margin: 0 auto;
+        border: 1.5px solid #2a3442;
+        border-radius: 4px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.12s ease;
+      }
+      .check-cell.done .box {
+        background: #00d9ff;
+        border-color: #00d9ff;
+        box-shadow: 0 0 8px rgba(0, 217, 255, 0.5);
+      }
+      .check-cell.done .box::after {
+        content: "";
+        width: 4px;
+        height: 8px;
+        border: solid #0a0e14;
+        border-width: 0 2px 2px 0;
+        transform: rotate(45deg) translate(-1px, -1px);
+      }
+
+      .chart {
+        background: #11161f;
+        border: 1px solid #1f2733;
+        padding: 6px;
+        border-radius: 8px;
+        flex: 1 1 40%;
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+      }
+
+      .chart-title {
+        flex: 0 0 auto;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 2px 4px 6px;
+        font-size: 11px;
+        font-weight: 600;
+        color: #eef3f9;
+        font-family: "Consolas", "JetBrains Mono", monospace;
+        letter-spacing: 0.5px;
+        border-bottom: 1px solid #1f2733;
+        margin-bottom: 4px;
+      }
+
+      .chart-title .dot {
+        width: 7px;
+        height: 7px;
+        border-radius: 50%;
+        background: #ffb86c;
+        box-shadow: 0 0 6px #ffb86c;
+      }
+
+      .chart-title .hint {
+        margin-left: auto;
+        font-size: 9.5px;
+        color: #5a6878;
+        font-weight: 400;
+        letter-spacing: 0;
+      }
+
+      .chart-body {
+        flex: 1 1 auto;
+        position: relative;
+        overflow: hidden;
+        display: flex;
+      }
+
+      .chart-grid-area {
+        position: relative;
+        flex: 1 1 auto;
+        display: flex;
+      }
+
+      .chart-table {
+        width: 100%;
+        height: 100%;
+        border-collapse: collapse;
+        table-layout: fixed;
+      }
+
+      .chart-table td,
+      .chart-table th {
+        border: 1px solid #1c232e;
+        font-size: 10px;
+        text-align: center;
+        padding: 0;
+        color: #c8d3e0;
+      }
+
+      .chart-table tbody tr td:not(.score) {
+        background: #0d1219;
+        cursor: pointer;
+      }
+      .chart-table tbody tr td:not(.score):hover {
+        background: #161c27;
+      }
+      .chart-table tbody tr td.active {
+        background: rgba(255, 184, 108, 0.16);
+      }
+
+      .score {
+        background: #161c27;
+        color: #ffb86c;
+        font-weight: 700;
+        font-family: "Consolas", "JetBrains Mono", monospace;
+        width: 46px;
+        position: sticky;
+        left: 0;
+        border-right: 2px solid #ffb86c;
+      }
+
+      .day-label {
+        background: #0d1219;
+        color: #5a6878;
+        font-weight: 600;
+        font-size: 9.5px;
+        font-family: "Consolas", "JetBrains Mono", monospace;
+      }
+
+      #lineOverlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        pointer-events: none;
+        z-index: 5;
+      }
+
+      .legend {
+        flex: 0 0 auto;
+        color: #5a6878;
+        text-align: center;
+        font-size: 10.5px;
+        font-family: "Consolas", "JetBrains Mono", monospace;
+      }
+      .legend::before {
+        content: "// ";
+        color: #00d9ff;
+      }
+
+      /* ============================================================
+         MOBILE LAYOUT  (<768px) — single "today card" mode
+         ============================================================ */
+      #mobileView {
+        display: none;
+        min-height: 100%;
+        flex-direction: column;
+        padding: 12px;
+        gap: 10px;
+      }
+
+      .m-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 8px;
+      }
+
+      .m-tag {
+        font-family: "Consolas", "JetBrains Mono", monospace;
+        font-size: 9px;
+        color: #00d9ff;
+        background: rgba(0, 217, 255, 0.08);
+        border: 1px solid rgba(0, 217, 255, 0.35);
+        padding: 3px 6px;
+        border-radius: 4px;
+        letter-spacing: 0.5px;
+        white-space: nowrap;
+      }
+
+      .m-reset {
+        font-family: "Consolas", "JetBrains Mono", monospace;
+        font-size: 9px;
+        color: #5a6878;
+        background: transparent;
+        border: 1px solid #1f2733;
+        padding: 4px 7px;
+        border-radius: 4px;
+      }
+
+      .m-nav {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        background: #11161f;
+        border: 1px solid #1f2733;
+        border-radius: 10px;
+        padding: 8px;
+      }
+
+      .m-nav button {
+        flex: 0 0 auto;
+        width: 34px;
+        height: 34px;
+        border-radius: 8px;
+        background: #161c27;
+        border: 1px solid #2a3442;
+        color: #00d9ff;
+        font-size: 16px;
+        font-weight: 700;
+      }
+      .m-nav button:disabled {
+        opacity: 0.3;
+      }
+
+      .m-daybox {
+        flex: 1 1 auto;
+        text-align: center;
+      }
+
+      .m-daynum {
+        font-family: "Consolas", "JetBrains Mono", monospace;
+        font-size: 20px;
+        font-weight: 700;
+        color: #eef3f9;
+        line-height: 1;
+      }
+
+      .m-daymonth {
+        font-family: "Consolas", "JetBrains Mono", monospace;
+        font-size: 9px;
+        color: #5a6878;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        margin-top: 2px;
+      }
+
+      .m-dayindex {
+        font-size: 9px;
+        color: #ffb86c;
+        font-family: "Consolas", "JetBrains Mono", monospace;
+        margin-top: 1px;
+      }
+
+      .m-section-title {
+        font-family: "Consolas", "JetBrains Mono", monospace;
+        font-size: 10px;
+        color: #5a6878;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+        padding: 2px 2px;
+      }
+
+      .m-tasklist {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+      }
+
+      .m-task {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        background: #11161f;
+        border: 1px solid #1f2733;
+        border-radius: 10px;
+        padding: 10px 12px;
+      }
+      .m-task.done {
+        border-color: rgba(0, 217, 255, 0.4);
+        background: rgba(0, 217, 255, 0.06);
+      }
+
+      .m-task .m-box {
+        flex: 0 0 auto;
+        width: 22px;
+        height: 22px;
+        border-radius: 6px;
+        border: 1.5px solid #2a3442;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .m-task.done .m-box {
+        background: #00d9ff;
+        border-color: #00d9ff;
+        box-shadow: 0 0 8px rgba(0, 217, 255, 0.5);
+      }
+      .m-task.done .m-box::after {
+        content: "";
+        width: 6px;
+        height: 11px;
+        border: solid #0a0e14;
+        border-width: 0 2.5px 2.5px 0;
+        transform: rotate(45deg) translate(-1px, -1.5px);
+      }
+
+      .m-task .m-label {
+        font-size: 13px;
+        color: #c8d3e0;
+        font-weight: 500;
+      }
+      .m-task.done .m-label {
+        color: #eef3f9;
+      }
+
+      .m-score-row {
+        background: #11161f;
+        border: 1px solid #1f2733;
+        border-radius: 10px;
+        padding: 10px;
+      }
+
+      .m-score-label {
+        font-family: "Consolas", "JetBrains Mono", monospace;
+        font-size: 10px;
+        color: #5a6878;
+        letter-spacing: 0.5px;
+        margin-bottom: 8px;
+        display: flex;
+        justify-content: space-between;
+      }
+      .m-score-label b {
+        color: #ffb86c;
+      }
+
+      .m-score-grid {
+        display: grid;
+        grid-template-columns: repeat(9, 1fr);
+        gap: 4px;
+      }
+
+      .m-score-btn {
+        aspect-ratio: 1;
+        border-radius: 6px;
+        border: 1.5px solid #2a3442;
+        background: #161c27;
+        color: #c8d3e0;
+        font-family: "Consolas", "JetBrains Mono", monospace;
+        font-size: 11px;
+        font-weight: 700;
+      }
+      .m-score-btn.active {
+        background: #ffb86c;
+        border-color: #ffb86c;
+        color: #161c27;
+        box-shadow: 0 0 8px rgba(255, 184, 108, 0.5);
+      }
+
+      .m-spark-wrap {
+        background: #11161f;
+        border: 1px solid #1f2733;
+        border-radius: 10px;
+        padding: 10px;
+      }
+
+      .m-spark-title {
+        font-family: "Consolas", "JetBrains Mono", monospace;
+        font-size: 9.5px;
+        color: #5a6878;
+        letter-spacing: 0.5px;
+        margin-bottom: 6px;
+      }
+
+      #sparkSvg {
+        width: 100%;
+        height: 50px;
+        display: block;
+      }
+
+      @media (max-width: 767px) {
+        #desktopView {
+          display: none;
+        }
+        #mobileView {
+          display: flex;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- ===================== DESKTOP / TABLET VIEW ===================== -->
+    <div id="desktopView">
+      <div class="title">
+        <span class="tag">PLAN</span>
+        <h1>1 OYLIK RIVOJLANISH JADVALI</h1>
+        <span class="period"><b>23-Iyun</b> → <b>23-Iyul</b> 2026</span>
+        <button class="reset" id="resetBtn">Tozalash</button>
+      </div>
+
+      <div class="table-wrapper">
+        <table id="planner">
+          <thead>
+            <tr id="dateRow">
+              <th class="activity">Faoliyat</th>
+            </tr>
+          </thead>
+          <tbody id="bodyRows"></tbody>
+        </table>
+      </div>
+
+      <div class="chart">
+        <div class="chart-title">
+          <span class="dot"></span>BAJARILGANLAR GRAFIGI
+          <span class="hint">kunlik katakka bosing — 0 dan 8 gacha</span>
+        </div>
+        <div class="chart-body">
+          <div class="chart-grid-area" id="chartGridArea">
+            <table class="chart-table" id="chartTable"></table>
+            <svg id="lineOverlay"></svg>
+          </div>
+        </div>
+      </div>
+
+      <div class="legend">
+        Yuqoridagi vazifani bosib belgilang. Grafikda kuniga nechta
+        bajarilganini (0–8) tanlang — chiziq avtomatik chiqadi.
+      </div>
+    </div>
+
+    <!-- ===================== MOBILE "TODAY CARD" VIEW ===================== -->
+    <div id="mobileView">
+      <div class="m-header">
+        <span class="m-tag">📋 1 OYLIK REJA</span>
+        <button class="m-reset" id="mResetBtn">Tozalash</button>
+      </div>
+
+      <div class="m-nav">
+        <button id="mPrev">‹</button>
+        <div class="m-daybox">
+          <div class="m-daynum" id="mDayNum">23</div>
+          <div class="m-daymonth" id="mDayMonth">Iyun</div>
+          <div class="m-dayindex" id="mDayIndex">1 / 31-kun</div>
+        </div>
+        <button id="mNext">›</button>
+      </div>
+
+      <div class="m-section-title">Bugungi vazifalar</div>
+      <div class="m-tasklist" id="mTaskList"></div>
+
+      <div class="m-score-row">
+        <div class="m-score-label">
+          <span>Bajarilganlar soni</span>
+          <b id="mScoreVal">—</b>
+        </div>
+        <div class="m-score-grid" id="mScoreGrid"></div>
+      </div>
+
+      <div class="m-spark-wrap">
+        <div class="m-spark-title">SO‘NGGI 7 KUN TRENDI</div>
+        <svg
+          id="sparkSvg"
+          viewBox="0 0 280 50"
+          preserveAspectRatio="none"
+        ></svg>
+      </div>
+    </div>
+
+    <script>
+      const activities = [
+        "Ma'naviy rivojlanish",
+        "Sport",
+        "Kitob o‘qish (20 bet)",
+        "Grammatika",
+        "So‘z yodlash (100 ta)",
+        "Kunlik maslahat",
+        "Uyqu (23:00 - 03:10)",
+      ];
+
+      const start = new Date("2026-06-23");
+      const end = new Date("2026-07-23");
+
+      let dates = [];
+      for (let d = new Date(start); d <= end; d.setDate(d.getDate() + 1)) {
+        dates.push(new Date(d));
+      }
+      const NUM_DAYS = dates.length;
+      const STORE_KEY = "oylik_reja_v1";
+
+      function loadState() {
+        try {
+          const raw = localStorage.getItem(STORE_KEY);
+          if (raw) return JSON.parse(raw);
+        } catch (e) {}
+        return { checks: {}, scores: {} };
+      }
+      function saveState() {
+        localStorage.setItem(STORE_KEY, JSON.stringify(state));
+      }
+      let state = loadState();
+
+      let dayScores = new Array(NUM_DAYS).fill(null);
+      for (let i = 0; i < NUM_DAYS; i++) {
+        if (state.scores[i] !== undefined) dayScores[i] = state.scores[i];
+      }
+
+      const MONTHS_UZ = { 5: "Iyun", 6: "Iyul" };
+
+      /* ===================== DESKTOP BUILD ===================== */
+      const dateRow = document.getElementById("dateRow");
+      const bodyRows = document.getElementById("bodyRows");
+
+      dates.forEach((d) => {
+        const th = document.createElement("th");
+        th.innerHTML = d.getDate() + "<br>" + (MONTHS_UZ[d.getMonth()] || "");
+        dateRow.appendChild(th);
+      });
+
+      const checkCells = []; // [rowIdx][dayIdx] -> td element
+
+      activities.forEach((item, rowIdx) => {
+        let tr = document.createElement("tr");
+        let first = document.createElement("td");
+        first.className = "activity";
+        first.innerHTML =
+          '<span class="idx">' +
+          String(rowIdx + 1).padStart(2, "0") +
+          "</span>" +
+          item;
+        tr.appendChild(first);
+
+        checkCells[rowIdx] = [];
+
+        dates.forEach((d, dayIdx) => {
+          let td = document.createElement("td");
+          td.className = "check-cell";
+          const key = rowIdx + "_" + dayIdx;
+          const box = document.createElement("div");
+          box.className = "box";
+          td.appendChild(box);
+
+          if (state.checks[key]) td.classList.add("done");
+
+          td.addEventListener("click", () => {
+            toggleCheck(rowIdx, dayIdx);
+          });
+
+          tr.appendChild(td);
+          checkCells[rowIdx][dayIdx] = td;
+        });
+
+        bodyRows.appendChild(tr);
+      });
+
+      function toggleCheck(rowIdx, dayIdx) {
+        const key = rowIdx + "_" + dayIdx;
+        const isDone = !state.checks[key];
+        state.checks[key] = isDone;
+        saveState();
+        const cell = checkCells[rowIdx][dayIdx];
+        if (cell) cell.classList.toggle("done", isDone);
+        if (currentDay === dayIdx) renderMobileTasks();
+      }
+
+      const chartTable = document.getElementById("chartTable");
+      const desktopScoreCells = {}; // "day_score" -> td
+
+      for (let score = 8; score >= 0; score--) {
+        let tr = document.createElement("tr");
+        let first = document.createElement("td");
+        first.className = "score";
+        first.textContent = score;
+        tr.appendChild(first);
+
+        dates.forEach((d, dayIdx) => {
+          let td = document.createElement("td");
+          td.dataset.score = score;
+          td.dataset.day = dayIdx;
+          if (dayScores[dayIdx] === score) td.classList.add("active");
+
+          td.addEventListener("click", () => setDayScore(dayIdx, score));
+
+          tr.appendChild(td);
+          desktopScoreCells[dayIdx + "_" + score] = td;
+        });
+
+        chartTable.appendChild(tr);
+      }
+
+      let bottomRow = document.createElement("tr");
+      let emptyCell = document.createElement("td");
+      emptyCell.className = "score";
+      emptyCell.textContent = "Kun";
+      bottomRow.appendChild(emptyCell);
+      dates.forEach((d) => {
+        let td = document.createElement("td");
+        td.className = "day-label";
+        td.innerHTML = d.getDate();
+        bottomRow.appendChild(td);
+      });
+      chartTable.appendChild(bottomRow);
+
+      function setDayScore(dayIdx, score) {
+        const prev = dayScores[dayIdx];
+        if (prev !== null && prev !== undefined) {
+          const prevCell = desktopScoreCells[dayIdx + "_" + prev];
+          if (prevCell) prevCell.classList.remove("active");
+        }
+        if (prev === score) {
+          dayScores[dayIdx] = null;
+          delete state.scores[dayIdx];
+        } else {
+          dayScores[dayIdx] = score;
+          state.scores[dayIdx] = score;
+          const newCell = desktopScoreCells[dayIdx + "_" + score];
+          if (newCell) newCell.classList.add("active");
+        }
+        saveState();
+        drawLine();
+        if (currentDay === dayIdx) renderMobileScore();
+        renderSparkline();
+      }
+
+      const svg = document.getElementById("lineOverlay");
+      const gridArea = document.getElementById("chartGridArea");
+
+      function drawLine() {
+        if (
+          getComputedStyle(document.getElementById("desktopView")).display ===
+          "none"
+        )
+          return;
+        const tableRect = chartTable.getBoundingClientRect();
+        const areaRect = gridArea.getBoundingClientRect();
+
+        svg.setAttribute("width", tableRect.width);
+        svg.setAttribute("height", tableRect.height);
+        svg.style.left = tableRect.left - areaRect.left + "px";
+        svg.style.top = tableRect.top - areaRect.top + "px";
+        svg.innerHTML = "";
+
+        const points = [];
+        dates.forEach((d, dayIdx) => {
+          const val = dayScores[dayIdx];
+          if (val === null || val === undefined) return;
+          const cell = desktopScoreCells[dayIdx + "_" + val];
+          if (!cell) return;
+          const r = cell.getBoundingClientRect();
+          const x = r.left - tableRect.left + r.width / 2;
+          const y = r.top - tableRect.top + r.height / 2;
+          points.push({ x, y, val });
+        });
+        if (points.length === 0) return;
+
+        for (let i = 0; i < points.length - 1; i++) {
+          const p1 = points[i],
+            p2 = points[i + 1];
+          const up = p2.val >= p1.val;
+          const line = document.createElementNS(
+            "http://www.w3.org/2000/svg",
+            "line",
+          );
+          line.setAttribute("x1", p1.x);
+          line.setAttribute("y1", p1.y);
+          line.setAttribute("x2", p2.x);
+          line.setAttribute("y2", p2.y);
+          line.setAttribute("stroke", up ? "#34d399" : "#ff5c7a");
+          line.setAttribute("stroke-width", "2");
+          line.setAttribute("stroke-linecap", "round");
+          svg.appendChild(line);
+        }
+        points.forEach((p) => {
+          const c = document.createElementNS(
+            "http://www.w3.org/2000/svg",
+            "circle",
+          );
+          c.setAttribute("cx", p.x);
+          c.setAttribute("cy", p.y);
+          c.setAttribute("r", "3.2");
+          c.setAttribute("fill", "#0a0e14");
+          c.setAttribute("stroke", "#ffb86c");
+          c.setAttribute("stroke-width", "1.6");
+          svg.appendChild(c);
+        });
+      }
+
+      document.getElementById("resetBtn").addEventListener("click", resetAll);
+      document.getElementById("mResetBtn").addEventListener("click", resetAll);
+      function resetAll() {
+        if (!confirm("Hammasini tozalashni tasdiqlaysizmi?")) return;
+        localStorage.removeItem(STORE_KEY);
+        location.reload();
+      }
+
+      /* ===================== MOBILE BUILD ===================== */
+      // find today's index if within range, else default to day 0
+      let currentDay = 0;
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+      for (let i = 0; i < dates.length; i++) {
+        if (dates[i].toDateString() === today.toDateString()) {
+          currentDay = i;
+          break;
+        }
+      }
+
+      const mDayNum = document.getElementById("mDayNum");
+      const mDayMonth = document.getElementById("mDayMonth");
+      const mDayIndex = document.getElementById("mDayIndex");
+      const mTaskList = document.getElementById("mTaskList");
+      const mScoreGrid = document.getElementById("mScoreGrid");
+      const mScoreVal = document.getElementById("mScoreVal");
+      const mPrev = document.getElementById("mPrev");
+      const mNext = document.getElementById("mNext");
+
+      // build score buttons 0..8 once
+      for (let s = 0; s <= 8; s++) {
+        const btn = document.createElement("button");
+        btn.className = "m-score-btn";
+        btn.textContent = s;
+        btn.dataset.score = s;
+        btn.addEventListener("click", () => setDayScore(currentDay, s));
+        mScoreGrid.appendChild(btn);
+      }
+
+      function renderMobileDay() {
+        const d = dates[currentDay];
+        mDayNum.textContent = d.getDate();
+        mDayMonth.textContent = MONTHS_UZ[d.getMonth()] || "";
+        mDayIndex.textContent = currentDay + 1 + " / " + NUM_DAYS + "-kun";
+        mPrev.disabled = currentDay === 0;
+        mNext.disabled = currentDay === NUM_DAYS - 1;
+        renderMobileTasks();
+        renderMobileScore();
+      }
+
+      function renderMobileTasks() {
+        mTaskList.innerHTML = "";
+        activities.forEach((item, rowIdx) => {
+          const key = rowIdx + "_" + currentDay;
+          const done = !!state.checks[key];
+
+          const row = document.createElement("div");
+          row.className = "m-task" + (done ? " done" : "");
+          row.innerHTML =
+            '<div class="m-box"></div><div class="m-label">' + item + "</div>";
+          row.addEventListener("click", () => {
+            toggleCheck(rowIdx, currentDay);
+            row.classList.toggle("done");
+          });
+          mTaskList.appendChild(row);
+        });
+      }
+
+      function renderMobileScore() {
+        const val = dayScores[currentDay];
+        mScoreVal.textContent = val === null || val === undefined ? "—" : val;
+        const btns = mScoreGrid.querySelectorAll(".m-score-btn");
+        btns.forEach((b) => {
+          b.classList.toggle("active", Number(b.dataset.score) === val);
+        });
+      }
+
+      mPrev.addEventListener("click", () => {
+        if (currentDay > 0) {
+          currentDay--;
+          renderMobileDay();
+        }
+      });
+      mNext.addEventListener("click", () => {
+        if (currentDay < NUM_DAYS - 1) {
+          currentDay++;
+          renderMobileDay();
+        }
+      });
+
+      // swipe support
+      let touchStartX = null;
+      const mobileView = document.getElementById("mobileView");
+      mobileView.addEventListener(
+        "touchstart",
+        (e) => {
+          touchStartX = e.changedTouches[0].clientX;
+        },
+        { passive: true },
+      );
+      mobileView.addEventListener(
+        "touchend",
+        (e) => {
+          if (touchStartX === null) return;
+          const dx = e.changedTouches[0].clientX - touchStartX;
+          if (Math.abs(dx) > 40) {
+            if (dx < 0 && currentDay < NUM_DAYS - 1) {
+              currentDay++;
+              renderMobileDay();
+            } else if (dx > 0 && currentDay > 0) {
+              currentDay--;
+              renderMobileDay();
+            }
+          }
+          touchStartX = null;
+        },
+        { passive: true },
+      );
+
+      /* ---------- mini sparkline (last 7 days up to currentDay) ---------- */
+      const sparkSvg = document.getElementById("sparkSvg");
+
+      function renderSparkline() {
+        sparkSvg.innerHTML = "";
+        const W = 280,
+          H = 50,
+          PAD = 6;
+
+        const from = Math.max(0, currentDay - 6);
+        const slice = [];
+        for (let i = from; i <= currentDay; i++) {
+          slice.push({ idx: i, val: dayScores[i] });
+        }
+        const known = slice.filter(
+          (p) => p.val !== null && p.val !== undefined,
+        );
+        if (known.length === 0) {
+          const txt = document.createElementNS(
+            "http://www.w3.org/2000/svg",
+            "text",
+          );
+          txt.setAttribute("x", W / 2);
+          txt.setAttribute("y", H / 2 + 4);
+          txt.setAttribute("text-anchor", "middle");
+          txt.setAttribute("fill", "#5a6878");
+          txt.setAttribute("font-size", "10");
+          txt.setAttribute("font-family", "Consolas, monospace");
+          txt.textContent = "Ma'lumot yo'q";
+          sparkSvg.appendChild(txt);
+          return;
+        }
+
+        const n = slice.length;
+        const stepX = n > 1 ? (W - PAD * 2) / (n - 1) : 0;
+        const points = slice.map((p, i) => {
+          const x = PAD + stepX * i;
+          const v = p.val === null || p.val === undefined ? null : p.val;
+          const y = v === null ? null : H - PAD - (v / 8) * (H - PAD * 2);
+          return { x, y, v };
+        });
+
+        for (let i = 0; i < points.length - 1; i++) {
+          const p1 = points[i],
+            p2 = points[i + 1];
+          if (p1.y === null || p2.y === null) continue;
+          const up = p2.v >= p1.v;
+          const line = document.createElementNS(
+            "http://www.w3.org/2000/svg",
+            "line",
+          );
+          line.setAttribute("x1", p1.x);
+          line.setAttribute("y1", p1.y);
+          line.setAttribute("x2", p2.x);
+          line.setAttribute("y2", p2.y);
+          line.setAttribute("stroke", up ? "#34d399" : "#ff5c7a");
+          line.setAttribute("stroke-width", "2.5");
+          line.setAttribute("stroke-linecap", "round");
+          sparkSvg.appendChild(line);
+        }
+        points.forEach((p, i) => {
+          if (p.y === null) return;
+          const c = document.createElementNS(
+            "http://www.w3.org/2000/svg",
+            "circle",
+          );
+          c.setAttribute("cx", p.x);
+          c.setAttribute("cy", p.y);
+          c.setAttribute("r", i === points.length - 1 ? "4" : "2.5");
+          c.setAttribute(
+            "fill",
+            i === points.length - 1 ? "#ffb86c" : "#0a0e14",
+          );
+          c.setAttribute("stroke", "#ffb86c");
+          c.setAttribute("stroke-width", "1.6");
+          sparkSvg.appendChild(c);
+        });
+      }
+
+      renderMobileDay();
+      renderSparkline();
+
+      const origRenderMobileDay = renderMobileDay;
+      renderMobileDay = function () {
+        origRenderMobileDay();
+        renderSparkline();
+      };
+
+      window.addEventListener("resize", drawLine);
+      requestAnimationFrame(drawLine);
+      setTimeout(drawLine, 50);
+    </script>
+  </body>
+</html>
